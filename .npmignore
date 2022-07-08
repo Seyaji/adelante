@@ -5,3 +5,4 @@ package-lock.json
 types
 tsconfig.json
 yarn.lock
+abi.json

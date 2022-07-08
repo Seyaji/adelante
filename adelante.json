@@ -2,5 +2,5 @@
   "useTypescript": true,
   "inlineFunctions": false,
   "inlineComponents": false,
-  "abiPath": "./abi.json"
+  "abiPath": "/abi.json"
 }
