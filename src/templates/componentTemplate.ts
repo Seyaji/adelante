@@ -27,9 +27,7 @@ type State = {
 }
 
 
-export default function ${capitalize(name)}(${inputs
-    .map(({ name, type }) => `${name}: ${dataTypes[type]}`)
-    .join(", ")}) {
+export default function ${capitalize(name)}() {
   ${useStateObject}
   ${handleChangeObjectState}
   return (
