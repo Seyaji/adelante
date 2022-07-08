@@ -27,7 +27,11 @@
     "startjs": "node ./dist/index.js"
   },
   "bin": {
+<<<<<<< HEAD
     "adelante": "ts-node ./src/index.js",
     "adelante init": "ts-node ./src/init.js"
+=======
+    "adelante": "src/index.js"
+>>>>>>> d0c3b16d2cd40ac0513ffa906c1c7ddc7957c92a
   }
 }
