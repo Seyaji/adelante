@@ -34,9 +34,9 @@ export default function ${capitalize(name)}() {
     <div id="functionBox">
       <div id="heading">
         <h1>${name}</h1>
-        <p>Function inputs: ${inputs
-          .map(({ name, type }) => `${name + " " + `${type.toUpperCase()}`}: ${dataTypes[type]}`)
-          .join(", ")}</p>
+        <p>Function inputs: (${inputs
+          .map(({ name, type }) => `${type + " " + `${name}`}: ${dataTypes[type]}`)
+          .join(", ")})</p>
         ${inputGenerator(inputs)}
       </div>
       <button onClick={async () => await ${name}(${inputs.map(({ name }) => "state?." + name).join(" ,")})} value="">${name}</button>
