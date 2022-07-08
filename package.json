@@ -1,7 +1,7 @@
 {
   "name": "adelante",
   "type": "module",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "main": "index.ts",
   "types": "types.ts",
   "author": "Seyaji",
@@ -28,7 +28,7 @@
     "startjs": "node ./dist/index.js"
   },
   "bin": {
-    "adelante": "src/index.js",
-    "adelante --init": "src/init.js"
+    "adelante": "./dist/index.js",
+    "adelante --init": "./dist/init.js"
   }
 }
