@@ -1,7 +1,6 @@
-
 {
   "useTypescript": true,
   "inlineFunctions": false,
   "inlineComponents": false,
-  "abiPath": "./src/abi.json"
+  "abiPath": "./abi.json"
 }

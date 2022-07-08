@@ -28,7 +28,6 @@
     "startjs": "node ./dist/index.js"
   },
   "bin": {
-    "adelante": "./dist/index.js",
-    "adelante --init": "./dist/init.js"
+    "adelante": "./dist/index.js"
   }
 }
