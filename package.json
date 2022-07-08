@@ -25,6 +25,6 @@
     "startjs": "node ./dist/index.js"
   },
   "bin": {
-    "adelante": "src/index.ts"
+    "adelante": "src/index.js"
   }
 }
