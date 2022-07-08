@@ -1,5 +1,6 @@
 node_modules
 dist
 UnitTrust
+types
 /src/abi.json
 adelante.json
