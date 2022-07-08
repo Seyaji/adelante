@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+import appRoot from 'app-root-path'
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 import fs from "fs";
@@ -10,8 +10,8 @@ import generator from "./generator.js";
   const exists = fs.existsSync("./adelante.json");
   console.log("exists", exists);
   if (exists) {
-    const { abiPath } = await require("../adelante.json");
-    const { abi, contractName } = await require(abiPath);
+    const { abiPath } = await require(`${appRoot}/adelante.json`);
+    const { abi, contractName } = await require(`${appRoot + abiPath}`);
     await generator(abi, contractName);
   }
   if (!exists) {

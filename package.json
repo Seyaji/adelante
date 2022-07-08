@@ -1,16 +1,18 @@
 {
   "name": "adelante",
   "type": "module",
-  "version": "1.0.7",
+  "version": "1.1.1",
   "main": "index.ts",
   "types": "types.ts",
   "author": "Seyaji",
   "license": "MIT",
   "dependencies": {
+    "app-root-path": "^3.0.0",
     "inquirer": "^9.0.0"
   },
   "devDependencies": {
     "@metamask/providers": "^9.0.0",
+    "@types/app-root-path": "^1.2.4",
     "@types/inquirer": "^8.2.1",
     "@types/node": "^18.0.3",
     "@types/react": "^18.0.15",
@@ -24,7 +26,6 @@
   },
   "scripts": {
     "start": "ts-node ./src/index.ts",
-    "adelante": "ts-node ./src/init.ts",
     "startjs": "node ./dist/index.js"
   },
   "bin": {
