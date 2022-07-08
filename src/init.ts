@@ -1,28 +1,10 @@
 import fs from 'fs';
 import inquirer from "inquirer";
 import adelante from './templates/adelante.js';
-
+import { initGreeting } from './greetings.js'
 
 export default  async function initialise() {
-  console.log("");
-  console.log("");
-  console.log("<:><:><:><:><:><:><:><:><:><:><:>");
-  console.log("");
-  console.log("Welcome to");
-  console.log("");
-  console.log(
-    `
-░█▀█░█▀▄░█▀█░█░░░█▀█░█▀█░▀█▀░█▀▀
-░█▀█░█░█░█▀█░█░░░█▀█░█░█░░█░░█▀▀
-░▀░▀░▀▀░░▀░▀░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀
-    `
-    );
-  console.log("");
-  console.log("React code generation for Solidity!");
-  console.log("");
-  console.log("<:><:><:><:><:><:><:><:><:><:><:>");
-  console.log("");
-  console.log("");
+  initGreeting();
 
   let exit = false;
 
