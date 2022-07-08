@@ -2,6 +2,16 @@
 
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
+
+import initialise from './init.js'
+
+(async function fileExists() {
+  const exists = fs.existsSync("./adelante.json" )
+  if (!exists) {
+    await initialise()
+  }
+})
+
 const { abiPath } = require('../adelante.json')
 const { abi, contractName } = require(abiPath)
 import componentTemplate from "./templates/componentTemplate.js";
@@ -11,6 +21,7 @@ import { indexFile, appFile, typeDeclaration, indexHtml } from "./templates/page
 import fs from "fs";
 
 (function functionCreate(abi: any) {
+
   // @ts-ignore
   const functions: ABI[] = abi.filter(({ type }) => type === "function");
   // console.log(util.inspect(functions, { showHidden: false, depth: null, colors: true }));

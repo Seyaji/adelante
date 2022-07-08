@@ -1,10 +1,9 @@
-#!/usr/bin/env node
 import fs from 'fs';
 import inquirer from "inquirer";
 import adelante from './templates/adelante.js';
 
 
-(async function initialise() {
+export default  async function initialise() {
   console.log("");
   console.log("");
   console.log("<:><:><:><:><:><:><:><:><:><:><:>");
@@ -84,4 +83,4 @@ import adelante from './templates/adelante.js';
       throw error;
   })
 
-})();
+}
