@@ -2,6 +2,7 @@ import { componentReact, componentImport } from './componentImports.js'
 import { capitalize } from '../utils.js'
 import { ABI } from '../types'
 
+
 export const indexHtml = (name: string) => {
   return {
   name: 'index',
@@ -80,6 +81,7 @@ export default function App() {
 export const typeDeclaration = () => {
   return {
     name: "types.d",
+    tsOnly: true,
     extension: '.ts',
     file: `
 import { MetaMaskInpageProvider } from "@metamask/providers";

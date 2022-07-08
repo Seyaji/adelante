@@ -1,8 +1,8 @@
-import { DataTypes, Input } from "../types.js";
 import { handleChangeObjectState, useStateObject } from "./utilSnippets.js";
 import { functionImport } from "./componentImports.js";
 import { capitalize } from "../utils.js";
 import dataTypes from "../templates/dataTypes.js";
+import { Input } from '../types'
 
 const inputGenerator = (inputs: Input[]) => {
   if (inputs.length == 0) return "";

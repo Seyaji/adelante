@@ -9,7 +9,6 @@ import functionTemplate from "./templates/functionTemplate.js";
 import { getContract } from "./templates/utilFunctions.js";
 import { indexFile, appFile, typeDeclaration, indexHtml } from "./templates/pageTemplates.js";
 import fs from "fs";
-import { ABI } from "./types";
 
 (function functionCreate(abi: any) {
   // @ts-ignore

@@ -1,5 +1,4 @@
-import { DataTypes } from '../types.js'
-
+import { DataTypes } from '../types';
 const dataTypes: DataTypes = {
     address: 'string',
     bool: 'boolean',
