@@ -8,12 +8,12 @@ export function componentReact(name: string) {
 
 export function componentImport(name: string,  depth: string) {
   return (
-`import ${capitalize(name)} from '${depth}/components/${name}.js';`
+`import ${capitalize(name)} from '${depth}/components/${name}';`
   )
 }
 
 export function functionImport(name: string, depth: string) {
   return (
-`import ${name} from '${depth}/functions/${name}.js';`
+`import ${name} from '${depth}/functions/${name}';`
   )
 }
