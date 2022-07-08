@@ -43,3 +43,11 @@ export const generatorGreeting = () => {
   console.log("");
   console.log("");
 }
+
+export const generatorComplete = () => {
+  console.log("     Complete");
+  console.log("");
+  console.log("");
+  console.log("<:><:><:><:><:><:><:><:><:><:><:>");
+  console.log("");
+};

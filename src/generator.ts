@@ -1,7 +1,7 @@
 import componentTemplate from "./templates/componentTemplate.js";
 import functionTemplate from "./templates/functionTemplate.js";
 import { getContract } from "./templates/utilFunctions.js";
-import { generatorGreeting } from "./greetings.js";
+import { generatorGreeting, generatorComplete } from "./greetings.js";
 import { indexFile, appFile, typeDeclaration, indexHtml } from "./templates/pageTemplates.js";
 import fs from "fs";
 
@@ -64,6 +64,8 @@ export default function generator(abi: any, contractName: string) {
       });
     });
   })();
+
+  generatorComplete()
 }
 
 // @ts-ignore
