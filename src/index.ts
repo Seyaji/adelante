@@ -6,15 +6,23 @@ import initialise from "./init.js";
 import generator from "./generator.js";
 
 (async function fileExists() {
-  const exists = fs.existsSync("./adelante.json");
-  console.log("exists", exists);
-  if (!exists) {
+  const adelanteExists = await fs.existsSync("./adelante.json");
+  if (!adelanteExists) {
     await initialise()
   }
-  if (exists) {
+  if (adelanteExists) {
     const { abiPath } = await require(`${appRoot}/adelante.json`);
-    const { abi, contractName } = await require(`${appRoot + abiPath}`);
-    await generator(abi, contractName);
+    try {
+      const { abi, contractName } = await (require(`${appRoot + abiPath}`));
+      await generator(abi, contractName);
+
+    } catch(error) {
+      console.log("<:><:><:><:><:><:><:><:><:><:><:>");
+      console.log("");
+      console.log("No ABI found. Please check your adelante.json file.");
+      console.log("");
+      console.log("<:><:><:><:><:><:><:><:><:><:><:>");
+    }
   }
 })()
 
