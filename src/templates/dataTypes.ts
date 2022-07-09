@@ -2,12 +2,12 @@ import { DataTypes } from '../types';
 const dataTypes: DataTypes = {
     address: 'string',
     bool: 'boolean',
-    unit: 'number',
-    unit8: 'number',
-    unit16: 'number',
-    unit32: 'number',
-    unit64: 'number',
-    unit128: 'number',
+    uint: 'number',
+    uint8: 'number',
+    uint16: 'number',
+    uint32: 'number',
+    uint64: 'number',
+    uint128: 'number',
     uint256: 'number',
 }
-export default dataTypes
+export default dataTypes 
