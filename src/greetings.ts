@@ -37,7 +37,7 @@ export const generatorGreeting = () => {
     `
     );
   console.log("");
-  console.log("     Generating files...");
+  console.log("     👻  Generating files  👻");
   console.log("");
   console.log("<:><:><:><:><:><:><:><:><:><:><:>");
   console.log("");
@@ -45,7 +45,7 @@ export const generatorGreeting = () => {
 }
 
 export const generatorComplete = () => {
-  console.log("     Complete");
+  console.log("        👻  Complete  👻");
   console.log("");
   console.log("");
   console.log("<:><:><:><:><:><:><:><:><:><:><:>");
