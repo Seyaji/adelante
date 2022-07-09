@@ -3,12 +3,17 @@ import { require } from './utils.js'
 
 const exists = fs.existsSync("./adelante.json");
 // @ts-ignore
-const { inlineFunctions, inlineComponents } = ((exists: boolean) => {
+const { inlineFunctions, inlineComponents, contractAddress } = ((exists: boolean) => {
   if (exists) {
     return require(`${appRoot}/adelante.json`)
   }
   if(!exists) {
-    return { inlineFunctions: false, inlineComponents: false}
+    console.log("<:><:><:><:><:><:><:><:><:><:><:>");
+    console.log("");
+    console.log("adelante.json not found, continuing with minimum default settings.");
+    console.log("");
+    console.log("<:><:><:><:><:><:><:><:><:><:><:>");
+    return { inlineFunctions: false, inlineComponents: false, contractAddress: "ENTER_CONTRACT_ADDRESS_HERE" }
   }
 });
 
@@ -25,12 +30,11 @@ export default function generator(abi: any, contractName: string) {
   generatorGreeting()
   // @ts-ignore
   const functions: ABI[] = abi.filter(({ type }) => type === "function");
-  // console.log(util.inspect(functions, { showHidden: false, depth: null, colors: true }));
 
-  const contractAddress = "0x2582B38c522D776b4a68726e941617eCc3259241";
+  const contract = contractAddress;
 
 
-  const utils = [getContract(contractName, contractAddress)].join("");
+  const utils = [getContract(contractName, contract)].join("");
   const pages = [indexFile, appFile(functions), typeDeclaration(), indexHtml(contractName)];
 
   const functionMap = functions.map(({ name, inputs, outputs, stateMutability }) =>
