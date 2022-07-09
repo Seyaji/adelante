@@ -3,6 +3,9 @@
 ## what is adelante?
 This is a code generation tool to aid in the rapid prototyping of smart contracts built with solidity
 
+if you like it, send me a coffee please! :)
+
+Eth address: 0x4A079D4417b522762C72dB9643234FCC4683a40E
 ## how can I make it work??
 run:
   
