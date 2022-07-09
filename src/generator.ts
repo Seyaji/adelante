@@ -1,6 +1,16 @@
 import appRoot from 'app-root-path'
 import { require } from './utils.js'
-const { inlineFunctions, inlineComponents } = await require(`${appRoot}/adelante.json`);
+
+const exists = fs.existsSync("./adelante.json");
+// @ts-ignore
+const { inlineFunctions, inlineComponents } = ((exists: boolean) => {
+  if (exists) {
+    return require(`${appRoot}/adelante.json`)
+  }
+  if(!exists) {
+    return { inlineFunctions: false, inlineComponents: false}
+  }
+});
 
 import componentTemplate from "./templates/componentTemplate.js";
 import functionTemplate from "./templates/functionTemplate.js";

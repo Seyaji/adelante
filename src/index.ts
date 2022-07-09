@@ -8,13 +8,13 @@ import generator from "./generator.js";
 (async function fileExists() {
   const exists = fs.existsSync("./adelante.json");
   console.log("exists", exists);
+  if (!exists) {
+    await initialise()
+  }
   if (exists) {
     const { abiPath } = await require(`${appRoot}/adelante.json`);
     const { abi, contractName } = await require(`${appRoot + abiPath}`);
     await generator(abi, contractName);
-  }
-  if (!exists) {
-    await initialise()
   }
 })()
 
