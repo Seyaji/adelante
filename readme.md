@@ -3,12 +3,27 @@
 ## what is adelante?
 This is a code generation tool to aid in the rapid prototyping of smart contracts built with solidity
 
+As of version 1.1.1 you can:
+- generate inline functions or extract them to their own files
+- generate inline components or extract them to their own files
+- use a combination of the two, e.g inline functions and extracted components
+
+Features in development before 1.2.0
+- generate javascript files
+- generate metamask connect component
+- generate css file based off theme
+
+
+Planned features: 
+- create a 'masterState' component that will store the state of all the components and output logs and other details.
+- filter out functions from inherited OpenZeppelin contracts that are not callable by owner or user. 
+
 if you like it, send me a coffee :)
 
 Eth address: 0x4A079D4417b522762C72dB9643234FCC4683a40E
 ## how can I make it work??
 run:
-  
+
 ```
 npm install adelante
 ```
@@ -25,21 +40,26 @@ then run:
 npx adelante
 ```
 
-you will be asked some questions to generate an adelante.json file
+If you have no adelante.json in your root directory you will be asked some questions to generate one.
 
-As of version 1.1.1 you can:
-- generate inline functions or extract them to their own files
-- generate inline components or extract them to their own files
-- use a combination of the two, e.g inline functions and extracted components
-(javascript support and other options coming soon!)
+it's reccomended that you
 
-its reccomended that you
-
-to install the dependencies
 - copy your abi file into the root project directory
-- define the path to your abi file in the adelante.json file (if you didnt do it when you generated the adelante file)
+- define the path to your abi file in the adelante .json file (if you didnt do it when you generated the adelante file)
+(If you dont generate an adelante file it will run the default generator)
+```json
+
+{
+  "useTypescript": true,
+  "inlineFunctions": false,
+  "inlineComponents": false,
+  "abiPath": "/abi.json"
+}
+
+```
 - run npx adelante and it will output the files to a directory named after your contract name
-(more output options comming soon)
+
+
 
 ## Currently it:
 
