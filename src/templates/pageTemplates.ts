@@ -1,4 +1,4 @@
-import { componentReact, componentImport } from './componentImports.js'
+import { componentReact, componentImport } from './imports.js'
 import { capitalize } from '../utils.js'
 import { ABI } from '../types'
 

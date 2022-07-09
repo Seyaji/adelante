@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 import appRoot from 'app-root-path'
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
+import { require } from './utils.js'
 import fs from "fs";
 import initialise from "./init.js";
 import generator from "./generator.js";

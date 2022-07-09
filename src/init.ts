@@ -1,3 +1,4 @@
+import appRoot from 'app-root-path'
 import fs from 'fs';
 import inquirer from "inquirer";
 import adelante from './templates/adelante.js';
@@ -60,7 +61,7 @@ export default  async function initialise() {
     options.push(choices["abiPath"]);
   })
 
-  fs.writeFile('./adelante.json', adelante(options[0], options[1], options[2], options[3]), (error) => {
+  fs.writeFile(`${appRoot}/adelante.json`, adelante(options[0], options[1], options[2], options[3]), (error) => {
     if (error)
       throw error;
   })
