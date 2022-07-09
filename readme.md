@@ -24,15 +24,19 @@ npx adelante
 
 you will be asked some questions to generate an adelante.json file
 
-As of version 1.1.1 the only option that makes a diffrernce is when you enter the path for you abi.json file.
-(more support and options coming soon!)
+As of version 1.1.1 you can:
+- generate inline functions or extract them to their own files
+- generate inline components or extract them to their own files
+- use a combination of the two, e.g inline functions and extracted components
+(javascript support and other options coming soon!)
 
 its reccomended that you
 
 to install the dependencies
-- copy your abi file into the src directory
-- define the path to your abi file in the adelante.json file 
-- run yarn start and it will output the files to a directory named after your contract name
+- copy your abi file into the root project directory
+- define the path to your abi file in the adelante.json file (if you didnt do it when you generated the adelante file)
+- run npx adelante and it will output the files to a directory named after your contract name
+(more output options comming soon)
 
 ## Currently it:
 
@@ -132,5 +136,5 @@ Things to note:
 - with payable functions an ethers.utils.parseEther() is generated in the function file but an amount is not provided
 
 how come? 
-payable functions dont require the ether amount to de defined as an argument in the function inputs (which is the source for the code generation)
+payable functions dont require the ether amount to de defined as an argument in the function inputs (these are recorded in the contract abi which is the source for the code generation)
 
