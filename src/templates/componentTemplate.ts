@@ -1,5 +1,5 @@
 import { handleChangeObjectState, useStateObject } from "./utilSnippets.js";
-import { functionImport } from "./componentImports.js";
+import { functionImport } from "./imports.js";
 import { capitalize } from "../utils.js";
 import dataTypes from "../templates/dataTypes.js";
 import { Input } from '../types'
@@ -17,17 +17,20 @@ const inputGenerator = (inputs: Input[]) => {
 `;
 };
 
-export default function componentTemplate(name: string, inputs: Input[], outputs: []) {
+export default function componentTemplate(name: string, inputs: Input[], outputs: [], inlineFunc: boolean, inline: boolean): string {
   return `
+${
+  inline ? "" : 
+`
 import React, { useState } from 'react';
-${functionImport(name, '..')}
+${functionImport(name, '..', inlineFunc)}
 
 type State = {
   [key: string]: string
 }
-
-
-export default function ${capitalize(name)}() {
+`
+}
+${inline ? "export" : "export default"} function ${capitalize(name)}() {
   ${useStateObject}
   ${handleChangeObjectState}
   return (
@@ -39,7 +42,7 @@ export default function ${capitalize(name)}() {
           .join(", ")})</p>
         ${inputGenerator(inputs)}
       </div>
-      <button onClick={async () => await ${name}(${inputs.map(({ name }) => "state?." + name).join(" ,")})} value="">${name}</button>
+      <button onClick={async () => await ${name}(${inputs.map(({ name }) => "state?." + name).join(" ,")})} value="" >${name}</button>
     </div>
   )
 }

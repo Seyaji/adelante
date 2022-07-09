@@ -1,8 +1,13 @@
+import appRoot from 'app-root-path'
+import { require } from './utils.js'
+const { inlineFunctions, inlineComponents } = await require(`${appRoot}/adelante.json`);
+
 import componentTemplate from "./templates/componentTemplate.js";
 import functionTemplate from "./templates/functionTemplate.js";
 import { getContract } from "./templates/utilFunctions.js";
 import { generatorGreeting, generatorComplete } from "./greetings.js";
 import { indexFile, appFile, typeDeclaration, indexHtml } from "./templates/pageTemplates.js";
+import { inlineComponentImport, inlineFuncRequire } from './templates/imports.js';
 import fs from "fs";
 
 
@@ -19,18 +24,43 @@ export default function generator(abi: any, contractName: string) {
   const pages = [indexFile, appFile(functions), typeDeclaration(), indexHtml(contractName)];
 
   const functionMap = functions.map(({ name, inputs, outputs, stateMutability }) =>
-    functionTemplate(name, inputs, outputs, stateMutability)
+    functionTemplate(name, inputs, outputs, stateMutability, inlineFunctions)
   );
-  const componentMap = functions.map(({ name, inputs, outputs }) => componentTemplate(name, inputs, outputs));
+  const componentMap = functions.map(({ name, inputs, outputs }) => componentTemplate(name, inputs, outputs, inlineFunctions, inlineComponents));
+
+  (function genFunctions() {
+    fs.mkdir(`./${contractName}/functions`, { recursive: true }, (error) => {
+      if (error) throw error;
+      if (inlineFunctions) {
+        fs.writeFile(`./${contractName}/functions/functions.ts`, [inlineFuncRequire(), ...functionMap].join(""), (error) => {
+          if (error) throw error;
+        });
+      }
+      if (!inlineFunctions) {
+        functionMap.map((component, index) => {
+          fs.writeFile(`./${contractName}/functions/${functions[index].name}.ts`, component, (error) => {
+            if (error) throw error;
+          });
+        });
+      }
+    });
+  })();
 
   (function genComponents() {
     fs.mkdir(`./${contractName}/components`, { recursive: true }, (error) => {
       if (error) throw error;
-      componentMap.map((component, index) => {
-        fs.writeFile(`./${contractName}/components/${functions[index].name}.tsx`, component, (error) => {
+      if (inlineComponents) {
+        fs.writeFile(`./${contractName}/components/components.tsx`, [inlineComponentImport(functions, inlineFunctions), ...componentMap].join(""), (error) => {
           if (error) throw error;
         });
-      });
+      }
+      if(!inlineComponents) {
+        componentMap.map((component, index) => {
+          fs.writeFile(`./${contractName}/components/${functions[index].name}.tsx`, component, (error) => {
+            if (error) throw error;
+          });
+        });
+      }
     });
   })();
 
@@ -39,17 +69,6 @@ export default function generator(abi: any, contractName: string) {
       if (error) throw error;
       pages.map(({ name, file, extension }) => {
         fs.writeFile(`./${contractName}/${name}${extension}`, file, (error) => {
-          if (error) throw error;
-        });
-      });
-    });
-  })();
-
-  (function genFunctions() {
-    fs.mkdir(`./${contractName}/functions`, { recursive: true }, (error) => {
-      if (error) throw error;
-      functionMap.map((component, index) => {
-        fs.writeFile(`./${contractName}/functions/${functions[index].name}.ts`, component, (error) => {
           if (error) throw error;
         });
       });
@@ -68,4 +87,3 @@ export default function generator(abi: any, contractName: string) {
   generatorComplete()
 }
 
-// @ts-ignore
