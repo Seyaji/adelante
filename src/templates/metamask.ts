@@ -1,4 +1,4 @@
-export default function metamask() {
+export default function metamask(useTs: boolean) {
   return ({
     name: "metamask",
     extension: '.tsx',
@@ -9,9 +9,9 @@ import { ethers } from "ethers";
 
 const Metamask = () => {
 
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const [account, setAccount] = useState<string>("");
-  const [balance, setBalance] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState${useTs ? "<string>" : ""}("");
+  const [account, setAccount] = useState${useTs ? "<string>" : ""}("");
+  const [balance, setBalance] = useState${useTs ? "<string>" : ""}("");
 
   useEffect(() => {
     if (window.ethereum) {
@@ -66,7 +66,7 @@ const Metamask = () => {
     localStorage.setItem("account", JSON.stringify(newAccount));
     try {
       const balance = await getBalance(newAccount)
-      // @ts-ignore
+      ${useTs ? "// @ts-ignore" : ""}
       setBalance(ethers.utils.formatEther(balance));
     } catch (err) {
       console.log(err);
