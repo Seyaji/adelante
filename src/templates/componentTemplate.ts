@@ -8,11 +8,11 @@ const inputGenerator = (inputs: Input[]) => {
   if (inputs.length == 0) return "";
   return `
         <div id="inputs">
-        ${inputs
-          .map(({ name, type }) => {
-            return `<input name="${name}" onChange={handleChange} type="${dataTypes[type]}" placeholder="${name}"/>`;
-          })
-          .join("\n")}
+          ${inputs
+            .map(({ name, type }) => {
+              return `<input name="${name}" onChange={handleChange} type="${dataTypes[type]}" placeholder="${name}"/>`;
+            })
+            .join("\n          ")}
         </div>
 `;
 };
@@ -35,8 +35,8 @@ ${ inputs.length > 0 && useTs ?
 ${inline ? "export" : "export default"} function ${capitalize(name)}() {
   ${
     inputs.length > 0 ?
-    `
-    ${useStateObject(useTs)}
+    `  ${useStateObject(useTs)}
+
     ${handleChangeObjectState(useTs)}
     `
     : ""
@@ -44,17 +44,13 @@ ${inline ? "export" : "export default"} function ${capitalize(name)}() {
   return (
     <div id="functionBox">
       <div id="heading">
-        <h1>${name}</h1>
-        ${
+        <h1>${name}</h1>${
           inputs.length > 0 ?
-          `
-          <p>Function inputs: (${inputs
+          `<p>Function inputs: (${inputs
             .map(({ name, type }) => `${type + " " + `${name}`}: ${dataTypes[type]}`)
             .join(", ")})</p>
-          ${inputGenerator(inputs)}
-          `
-          : ""
-        }
+            ${inputGenerator(inputs)}`
+          : ""}
       </div>
       <button onClick={async () => await ${name}(${inputs.map(({ name }) => "state?." + name).join(" ,")})} value="" >${name}</button>
     </div>
