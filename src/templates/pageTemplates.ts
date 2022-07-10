@@ -35,13 +35,13 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from './App';
 
-const rootElement = document.getElementById("root");
 
-createRoot(rootElement).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <App />
   </StrictMode>
 );
+
 `,
   };
 };
@@ -58,6 +58,7 @@ ${functions.map(({ name }) => componentImport(name, ".")).join("\n")}
 export default function App() {
   return (
     <div className="home-page">
+      <Metamask />
       ${functions.map(({ name }) => componentReact(name)).join("\n")}
     </div>
   )
