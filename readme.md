@@ -9,14 +9,15 @@ As of version 1.1.3 you can:
 - use a combination of the two, e.g inline functions and extracted components
 
 Features in development before 1.2.0
-- generate javascript files
-- generate metamask connect component
-- generate css file based off theme
+- generate javascript files - complete awaiting npm publish
+- generate metamask connect component - complete awaiting npm publish
+- generate css file based off theme - in progress
 
 
 Planned features: 
 - create a 'masterState' component that will store the state of all the components and output logs and other details.
 - filter out functions from inherited OpenZeppelin contracts that are not callable by owner or user. 
+- generate test files for the generated files? 
 
 if you like it, send me a coffee :)
 

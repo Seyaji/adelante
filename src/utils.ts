@@ -4,3 +4,5 @@ export function capitalize(name: string) {
 
 import { createRequire } from "module";
 export const require = createRequire(import.meta.url);
+
+export const useTs = (typescript: boolean, ts: string, js: string) => typescript ? ts : js;

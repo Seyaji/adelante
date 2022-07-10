@@ -1,17 +1,19 @@
 // Util Functions
 
-export const getContract = (contractName: string, contractAddress: string) => 
+export const getContract = (contractName: string, contractAddress: string, useTs: boolean) => 
 `
-import { ethers } from 'ethers';
-import { MetaMaskInpageProvider } from "@metamask/providers";
+import { ethers } from 'ethers';${
+useTs ? `
+import { MetaMaskInpageProvider } from "@metamask/providers";` : ""
+}
 import ${contractName} from './${contractName}.json';
 
 export const contractAddress = '${contractAddress}';
 
-export const getContract = (ethereum: MetaMaskInpageProvider) => {
-  const provider = new ethers.providers.Web3Provider(ethereum as any);
+export const getContract = (ethereum${ useTs ? ": MetaMaskInpageProvider" : ""}) => {
+  const provider = new ethers.providers.Web3Provider(ethereum);
   const signer = provider.getSigner();
-  const connectedContract: ethers.Contract = new ethers.Contract(contractAddress, UnitTrust.abi, signer);
+  const connectedContract${useTs ? ": ethers.Contract" : ""} = new ethers.Contract(contractAddress, UnitTrust.abi, signer);
   return connectedContract;
 }
 `

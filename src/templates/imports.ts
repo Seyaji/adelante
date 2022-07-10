@@ -17,20 +17,20 @@ export function metamaskImport() {
   return `import Metamask from './metamask';`;
 }
 
-export function inlineFuncRequire() {
+export function inlineFuncRequire(useTs: boolean) {
   return `
 import { getContract } from '../utils/utils';
-import { ethers } from 'ethers';
+${useTs ? "import { ethers } from 'ethers';" : ""}
 `;
 }
-export function inlineFunctionImport() {
+export function inlineFunctionImport(useTs: boolean) {
   return `
 import { getContract } from '../utils/utils';
-import { ethers } from 'ethers';
+${useTs ? "import { ethers } from 'ethers';" : ""}
 `;
 }
 
-export function inlineComponentImport(functions: ABI[], inline: boolean) {
+export function inlineComponentImport(functions: ABI[], inline: boolean, useTs: boolean) {
   return `
 import React, { useState } from 'react';
 ${
@@ -39,10 +39,13 @@ ${
 import {
 ${functions.map(({ name }) => `${name},`).join("\n")}
 } from '../functions/functions.js';
-
+${useTs ? 
+`
 type State = {
   [key: string]: string
 }
+`
+  : ""}
 `
   : functions.map(({name}) => componentImport(name, '.')).join("\n")
 }

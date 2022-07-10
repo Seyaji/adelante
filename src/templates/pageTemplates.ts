@@ -1,14 +1,12 @@
-import { componentReact, componentImport, metamaskImport } from './imports.js'
-import { capitalize } from '../utils.js'
-import { ABI } from '../types'
-
+import { componentReact, componentImport, metamaskImport } from "./imports.js";
+import { capitalize } from "../utils.js";
+import { ABI } from "../types";
 
 export const indexHtml = (name: string) => {
   return {
-  name: 'index',
-  extension: '.html',
-  file: 
-`
+    name: "index",
+    extension: ".html",
+    file: `
 <!DOCTYPE html>
 <html>
 
@@ -23,14 +21,15 @@ export const indexHtml = (name: string) => {
 </body>
 
 </html>
-`
-}}
+`,
+  };
+};
 
-export const indexFile = {
-  name: "index",
-  extension: '.tsx',
-  file: 
-`
+export const indexFile = (useTs: boolean) => {
+  return {
+    name: "index",
+    extension: `${useTs ? ".tsx" : ".jsx"}`,
+    file: `
 import React from "react";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
@@ -44,21 +43,22 @@ createRoot(rootElement).render(
   </StrictMode>
 );
 `,
+  };
 };
 
-export const appFile = (functions: ABI[]) => {
+export const appFile = (functions: ABI[], useTs: boolean)=> {
   return {
     name: "App",
-    extension: '.tsx',
+    extension: `${useTs ? ".tsx" : ".jsx"}`,
     file: `
 import React from 'react';
 ${metamaskImport()}
-${functions.map(( {name }) => componentImport(name, '.')).join("\n")}
+${functions.map(({ name }) => componentImport(name, ".")).join("\n")}
 
 export default function App() {
   return (
     <div className="home-page">
-      ${functions.map(( {name }) => componentReact(name)).join("\n")}
+      ${functions.map(({ name }) => componentReact(name)).join("\n")}
     </div>
   )
 }
@@ -70,12 +70,13 @@ export const typeDeclaration = () => {
   return {
     name: "types.d",
     tsOnly: true,
-    extension: '.ts',
+    extension: ".ts",
     file: `
 import { MetaMaskInpageProvider } from "@metamask/providers";
 declare global {
   interface Window {
     ethereum: MetaMaskInpageProvider;
   }
-}`
-}}
+}`,
+  };
+};
