@@ -1,8 +1,8 @@
 //  Util Snippets
-export const useStateObject = () => `const [state, setState] = useState<State>({})`;
+export const useStateObject = (useTs: boolean) => `const [state, setState] = useState${useTs ?"<State>" : `` }({})`;
 
-export const handleChangeObjectState = () => 
-` const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+export const handleChangeObjectState = (useTs: boolean) => 
+`const handleChange = (event${useTs ? `: React.ChangeEvent<HTMLInputElement>` : ""}) => {
     const { name, value } = event.target
     setState((prevState) => {
       return {
