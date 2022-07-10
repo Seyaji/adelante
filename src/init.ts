@@ -2,7 +2,7 @@ import appRoot from "app-root-path";
 import fs from "fs";
 import inquirer from "inquirer";
 import { adelante, defaultSettings } from "./templates/adelante.js";
-import { setupComplete, initGreeting } from "./greetings.js";
+import { setupComplete, initGreeting } from "./messages.js";
 
 export default async function initialise() {
   initGreeting();
@@ -27,7 +27,7 @@ export default async function initialise() {
       }
     });
 
-  if (exit) return;
+  if (exit) {return};
 
   await inquirer
     .prompt({
