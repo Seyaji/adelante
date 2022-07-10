@@ -6,7 +6,7 @@ import { ethers } from 'ethers';${
 useTs ? `
 import { MetaMaskInpageProvider } from "@metamask/providers";` : ""
 }
-import ${contractName} from './${contractName}.json';
+import ${contractName} from '../${contractName}.json';
 
 export const contractAddress = '${contractAddress}';
 
