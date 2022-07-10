@@ -42,8 +42,8 @@ ${inline ? "export" : "export default"} function ${capitalize(name)}() {
     : ""
   }
   return (
-    <div id="functionBox">
-      <div id="heading">
+    <div className="function-box">
+      <div className="box-heading">
         <h1>${name}</h1>${
           inputs.length > 0 ?
           `<p>Function inputs: (${inputs
@@ -52,7 +52,7 @@ ${inline ? "export" : "export default"} function ${capitalize(name)}() {
             ${inputGenerator(inputs)}`
           : ""}
       </div>
-      <button onClick={async () => await ${name}(${inputs.map(({ name }) => "state?." + name).join(" ,")})} value="" >${name}</button>
+      <button className="box button" onClick={async () => await ${name}(${inputs.map(({ name }) => "state?." + name).join(" ,")})} value="" >${name}</button>
     </div>
   )
 }
