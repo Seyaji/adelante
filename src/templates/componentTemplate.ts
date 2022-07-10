@@ -18,33 +18,47 @@ const inputGenerator = (inputs: Input[]) => {
 };
 
 export default function componentTemplate(name: string, inputs: Input[], outputs: [], inlineFunc: boolean, inline: boolean): string {
-  return `
-${
+  return(
+`${
   inline ? "" : 
-`
-import React, { useState } from 'react';
+`import React${inputs.length > 0 ? `, { useState }` : ""} from 'react';
 ${functionImport(name, '..', inlineFunc)}
-
-type State = {
-  [key: string]: string
-}
-`
+${ inputs.length > 0 ? 
+  `
+  type State = {
+    [key: string]: string
+  }
+  `
+  : ""
+}`
 }
 ${inline ? "export" : "export default"} function ${capitalize(name)}() {
-  ${useStateObject}
-  ${handleChangeObjectState}
+  ${
+    inputs.length > 0 ?
+    `
+    ${useStateObject()}
+    ${handleChangeObjectState()}
+    `
+    : ""
+  }
   return (
     <div id="functionBox">
       <div id="heading">
         <h1>${name}</h1>
-        <p>Function inputs: (${inputs
-          .map(({ name, type }) => `${type + " " + `${name}`}: ${dataTypes[type]}`)
-          .join(", ")})</p>
-        ${inputGenerator(inputs)}
+        ${
+          inputs.length > 0 ?
+          `
+          <p>Function inputs: (${inputs
+            .map(({ name, type }) => `${type + " " + `${name}`}: ${dataTypes[type]}`)
+            .join(", ")})</p>
+          ${inputGenerator(inputs)}
+          `
+          : ""
+        }
       </div>
       <button onClick={async () => await ${name}(${inputs.map(({ name }) => "state?." + name).join(" ,")})} value="" >${name}</button>
     </div>
   )
 }
-`;
+`)
 }
