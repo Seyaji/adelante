@@ -17,27 +17,28 @@ export default function functionTemplate(
   inputs: Input[],
   outputs: [],
   stateMutability: string,
-  inline: boolean
+  inline: boolean,
+  useTs: boolean,
 ): string {
 
-  const inputMap = inputs.map(({ name, type }) => `${name}: string`).join(", ")
+  const inputMap = (ts: boolean) => inputs.map(({ name, type }) => `${name}${ts ? ": string" : ""}`).join(", ")
 
   return `
 /* 
 ---~~~=*%$}>    ${name}    <{$%&=~~~---
 
-Inputs:  ${inputs.map(({ name, type }) => `${name}: ${dataTypes[type]}`).join(", ")}
+Inputs:  ${inputs.map(({ name, type }) => `${name}: ${type}`).join(", ")}
 
 */
 ${
-  inline ? "" :
-  `
-  import { getContract } from '../utils/utils'
-  ${stateMutability === "payable" ? `import { ethers } from 'ethers';` : ""}
-  `
+inline ? "" :
+`
+import { getContract } from '../utils/utils'
+${stateMutability === "payable" ? `import { ethers } from 'ethers';` : ""}
+`
 }
 
-${inline ? "export" : "export default"} async function ${name}(${inputMap}) {
+${inline ? "export" : "export default"} async function ${name}(${inputMap(useTs)}) {
   try {
     const { ethereum } = window;
     const contract = getContract(ethereum);

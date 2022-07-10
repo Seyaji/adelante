@@ -17,13 +17,13 @@ const inputGenerator = (inputs: Input[]) => {
 `;
 };
 
-export default function componentTemplate(name: string, inputs: Input[], outputs: [], inlineFunc: boolean, inline: boolean): string {
+export default function componentTemplate(name: string, inputs: Input[], outputs: [], inlineFunc: boolean, inline: boolean, useTs: boolean): string {
   return(
 `${
   inline ? "" : 
 `import React${inputs.length > 0 ? `, { useState }` : ""} from 'react';
 ${functionImport(name, '..', inlineFunc)}
-${ inputs.length > 0 ? 
+${ inputs.length > 0 && useTs ? 
   `
   type State = {
     [key: string]: string
@@ -36,8 +36,8 @@ ${inline ? "export" : "export default"} function ${capitalize(name)}() {
   ${
     inputs.length > 0 ?
     `
-    ${useStateObject()}
-    ${handleChangeObjectState()}
+    ${useStateObject(useTs)}
+    ${handleChangeObjectState(useTs)}
     `
     : ""
   }
