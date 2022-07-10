@@ -10,7 +10,7 @@ import metamask from "./templates/metamask.js";
 import { generatorGreeting, generatorComplete, inProgress } from "./messages.js";
 import { indexFile, appFile, typeDeclaration, indexHtml } from "./templates/pageTemplates.js";
 import { inlineComponentImport, inlineFuncRequire } from "./templates/imports.js";
-import { ABI } from './types'
+import { ABI } from "./types";
 import fs from "fs";
 
 export default function generator(abi: any, contractName: string) {
@@ -22,7 +22,15 @@ export default function generator(abi: any, contractName: string) {
   const contract = contractAddress;
 
   const utils = [getContract(contractName, contract, useTypescript)].join("");
-  const pages = [indexFile, appFile(functions), typeDeclaration(), indexHtml(contractName), metamask(useTypescript)];
+  const tsPages = [typeDeclaration()]
+  const pages = [
+    indexFile(useTypescript),
+    appFile(functions, useTypescript),
+    indexHtml(contractName),
+    metamask(useTypescript),
+  ].concat( useTypescript ? tsPages : [] );
+
+  
 
   const functionMap = functions.map(({ name, inputs, outputs, stateMutability }) =>
     functionTemplate(name, inputs, outputs, stateMutability, inlineFunctions, useTypescript)
@@ -87,7 +95,8 @@ export default function generator(abi: any, contractName: string) {
     fs.mkdir(`./${contractName}/`, { recursive: true }, (error) => {
       if (error) throw error;
       pages.map(({ name, file, extension }) => {
-        fs.writeFile(`./${contractName}/${name}${extension}`, file, (error) => {
+        const path = `./${contractName}/${name}${extension}`;
+        fs.writeFile(path, file, (error) => {
           if (error) throw error;
         });
       });
