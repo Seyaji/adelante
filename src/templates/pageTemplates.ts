@@ -1,4 +1,4 @@
-import { componentReact, componentImport } from './imports.js'
+import { componentReact, componentImport, metamaskImport } from './imports.js'
 import { capitalize } from '../utils.js'
 import { ABI } from '../types'
 
@@ -52,6 +52,7 @@ export const appFile = (functions: ABI[]) => {
     extension: '.tsx',
     file: `
 import React from 'react';
+${metamaskImport()}
 ${functions.map(( {name }) => componentImport(name, '.')).join("\n")}
 
 export default function App() {
@@ -64,19 +65,6 @@ export default function App() {
 `,
   };
 };
-
-// export const functionImportPage = (functions: ABI[]) => {
-//   return {
-//     name: 'functions',
-//     extension: '.tsx',
-//     file: 
-// `${functions.map(( {name }) => componentImport(name)).join("\n")}
-
-// export {
-// ${functions.map(( {name }) => capitalize(name)).join(",\n")}
-// }`
-//   }
-// }
 
 export const typeDeclaration = () => {
   return {

@@ -1,54 +1,67 @@
-import appRoot from 'app-root-path'
-import { require } from './utils.js'
+import appRoot from "app-root-path";
+import { Adelante } from './types'
+import { require } from "./utils.js";
 
-const exists = fs.existsSync("./adelante.json");
-// @ts-ignore
-const { inlineFunctions, inlineComponents, contractAddress } = ((exists: boolean) => {
-  if (exists) {
-    return require(`${appRoot}/adelante.json`)
-  }
-  if(!exists) {
+
+const {
+  // @ts-ignore
+  inlineFunctions,
+  // @ts-ignore
+  inlineComponents,
+  // @ts-ignore
+  contractAddress,
+} = () => {
+  try {
+    return require(`${appRoot}/adelante.json`);
+  } catch (error) {
     console.log("<:><:><:><:><:><:><:><:><:><:><:>");
     console.log("");
     console.log("adelante.json not found, continuing with minimum default settings.");
     console.log("");
     console.log("<:><:><:><:><:><:><:><:><:><:><:>");
-    return { inlineFunctions: false, inlineComponents: false, contractAddress: "ENTER_CONTRACT_ADDRESS_HERE" }
+    return { inlineFunctions: false, inlineComponents: false, contractAddress: "ENTER_CONTRACT_ADDRESS_HERE" };
   }
-});
+  
+};
 
 import componentTemplate from "./templates/componentTemplate.js";
 import functionTemplate from "./templates/functionTemplate.js";
 import { getContract } from "./templates/utilFunctions.js";
-import { generatorGreeting, generatorComplete } from "./greetings.js";
+import metamask from "./templates/metamask.js";
+import { generatorGreeting, generatorComplete, inProgress } from "./messages.js";
 import { indexFile, appFile, typeDeclaration, indexHtml } from "./templates/pageTemplates.js";
-import { inlineComponentImport, inlineFuncRequire } from './templates/imports.js';
+import { inlineComponentImport, inlineFuncRequire } from "./templates/imports.js";
 import fs from "fs";
 
-
 export default function generator(abi: any, contractName: string) {
-  generatorGreeting()
+  generatorGreeting();
+  inProgress();
   // @ts-ignore
   const functions: ABI[] = abi.filter(({ type }) => type === "function");
 
   const contract = contractAddress;
 
-
   const utils = [getContract(contractName, contract)].join("");
-  const pages = [indexFile, appFile(functions), typeDeclaration(), indexHtml(contractName)];
+  const pages = [indexFile, appFile(functions), typeDeclaration(), indexHtml(contractName), metamask()];
 
   const functionMap = functions.map(({ name, inputs, outputs, stateMutability }) =>
     functionTemplate(name, inputs, outputs, stateMutability, inlineFunctions)
   );
-  const componentMap = functions.map(({ name, inputs, outputs }) => componentTemplate(name, inputs, outputs, inlineFunctions, inlineComponents));
+  const componentMap = functions.map(({ name, inputs, outputs }) =>
+    componentTemplate(name, inputs, outputs, inlineFunctions, inlineComponents)
+  );
 
   (function genFunctions() {
     fs.mkdir(`./${contractName}/functions`, { recursive: true }, (error) => {
       if (error) throw error;
       if (inlineFunctions) {
-        fs.writeFile(`./${contractName}/functions/functions.ts`, [inlineFuncRequire(), ...functionMap].join(""), (error) => {
-          if (error) throw error;
-        });
+        fs.writeFile(
+          `./${contractName}/functions/functions.ts`,
+          [inlineFuncRequire(), ...functionMap].join(""),
+          (error) => {
+            if (error) throw error;
+          }
+        );
       }
       if (!inlineFunctions) {
         functionMap.map((component, index) => {
@@ -64,11 +77,15 @@ export default function generator(abi: any, contractName: string) {
     fs.mkdir(`./${contractName}/components`, { recursive: true }, (error) => {
       if (error) throw error;
       if (inlineComponents) {
-        fs.writeFile(`./${contractName}/components/components.tsx`, [inlineComponentImport(functions, inlineFunctions), ...componentMap].join(""), (error) => {
-          if (error) throw error;
-        });
+        fs.writeFile(
+          `./${contractName}/components/components.tsx`,
+          [inlineComponentImport(functions, inlineFunctions), ...componentMap].join(""),
+          (error) => {
+            if (error) throw error;
+          }
+        );
       }
-      if(!inlineComponents) {
+      if (!inlineComponents) {
         componentMap.map((component, index) => {
           fs.writeFile(`./${contractName}/components/${functions[index].name}.tsx`, component, (error) => {
             if (error) throw error;
@@ -98,6 +115,5 @@ export default function generator(abi: any, contractName: string) {
     });
   })();
 
-  generatorComplete()
+  generatorComplete();
 }
-

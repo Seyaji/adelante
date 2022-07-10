@@ -25,7 +25,6 @@ export const initGreeting = () => {
 
 export const generatorGreeting = () => {
   console.log("");
-  console.log("");
   console.log("<:><:><:><:><:><:><:><:><:><:><:>");
   console.log("");
 console.log(
@@ -34,12 +33,14 @@ console.log(
 ░█▀█░█░█░█▀▀░█░░░█▀█░█░█░░█░░█▀▀
 ░▀░▀░▀▀░░▀▀▀░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀
 `);
-  console.log("");
-  console.log("     👻  Generating files  👻");
-  console.log("");
   console.log("        Created by Seyaji  ");
   console.log("");
   console.log("<:><:><:><:><:><:><:><:><:><:><:>");
+}
+
+export const inProgress = () => {
+  console.log("");
+  console.log("     👻  Generating files  👻");
   console.log("");
 }
 

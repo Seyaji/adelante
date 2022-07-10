@@ -6,6 +6,7 @@ import initialise from "./init.js";
 import generator from "./generator.js";
 
 (async function fileExists() {
+
   const adelanteExists = await fs.existsSync("./adelante.json");
   if (!adelanteExists) {
     await initialise()
@@ -14,8 +15,13 @@ import generator from "./generator.js";
     const { abiPath } = await require(`${appRoot}/adelante.json`);
     try {
       const { abi, contractName } = await (require(`${appRoot + abiPath}`));
-      await generator(abi, contractName);
+      generator(abi, contractName);
 
+      fs.copyFile(`${appRoot + abiPath}`, `./${contractName}/abi.json`, (error) => {
+        if (error) {
+          console.log("Failed to copy abi.json");
+        }
+      })
     } catch(error) {
       console.log("<:><:><:><:><:><:><:><:><:><:><:>");
       console.log("");
@@ -24,5 +30,6 @@ import generator from "./generator.js";
       console.log("<:><:><:><:><:><:><:><:><:><:><:>");
     }
   }
+  
 })()
 

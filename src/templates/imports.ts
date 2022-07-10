@@ -13,6 +13,10 @@ export function functionImport(name: string, depth: any, inline: boolean) {
   return `import ${inline ? "{ " + name + " }" : name} from '${depth}/functions/${inline ? 'functions.js' : name}';`;
 }
 
+export function metamaskImport() {
+  return `import Metamask from './metamask';`;
+}
+
 export function inlineFuncRequire() {
   return `
 import { getContract } from '../utils/utils';
