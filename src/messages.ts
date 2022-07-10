@@ -1,5 +1,4 @@
 
-
 export const initGreeting = () => {
   console.log("");
   console.log("");
@@ -17,7 +16,7 @@ export const initGreeting = () => {
   console.log("React code generation for Solidity!");
   console.log("");
   console.log("        Created by Seyaji  ");
-  console.log("");
+  console.log("                           v1.1.4)");
   console.log("<:><:><:><:><:><:><:><:><:><:><:>");
   console.log("");
   console.log("");
@@ -34,7 +33,7 @@ console.log(
 ░▀░▀░▀▀░░▀▀▀░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀
 `);
   console.log("        Created by Seyaji  ");
-  console.log("");
+  console.log("                           v1.1.4");
   console.log("<:><:><:><:><:><:><:><:><:><:><:>");
 }
 
