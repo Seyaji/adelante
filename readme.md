@@ -10,7 +10,7 @@ As of version 1.1.3 you can:
 
 Features in development before 1.2.0
 - generate javascript files
-- generate metamask connect component
+- generate metamask connect component - complete awaiting publish
 - generate css file based off theme
 
 
