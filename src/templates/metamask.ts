@@ -1,7 +1,7 @@
 export default function metamask(useTs: boolean) {
   return ({
     name: "metamask",
-    extension: '.tsx',
+    extension: `${useTs ? ".tsx" : ".jsx"}`,
     file: 
 `
 import React, { useEffect, useState } from 'react';
