@@ -11,7 +11,7 @@ import ${contractName} from './${contractName}.json';
 export const contractAddress = '${contractAddress}';
 
 export const getContract = (ethereum${ useTs ? ": MetaMaskInpageProvider" : ""}) => {
-  const provider = new ethers.providers.Web3Provider(ethereum);
+  const provider = new ethers.providers.Web3Provider(ethereum${ useTs ? "as any" : "" });
   const signer = provider.getSigner();
   const connectedContract${useTs ? ": ethers.Contract" : ""} = new ethers.Contract(contractAddress, UnitTrust.abi, signer);
   return connectedContract;
