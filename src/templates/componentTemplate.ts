@@ -10,7 +10,7 @@ const inputGenerator = (inputs: Input[]) => {
         <div id="inputs">
           ${inputs
             .map(({ name, type }) => {
-              return `<input name="${name}" onChange={handleChange} type="${dataTypes[type]}" placeholder="${name}"/>`;
+              return `<label>${name}: <input name="${name}" onChange={handleChange} type="${dataTypes[type]}" placeholder="${name}"/></label>`;
             })
             .join("\n          ")}
         </div>
@@ -18,12 +18,13 @@ const inputGenerator = (inputs: Input[]) => {
 };
 
 export default function componentTemplate(name: string, inputs: Input[], outputs: [], inlineFunc: boolean, inline: boolean, useTs: boolean): string {
+  const useState = inputs.length > 0 || outputs.length > 0
   return(
 `${
   inline ? "" : 
-`import React${inputs.length > 0 ? `, { useState }` : ""} from 'react';
+`import React${ useState ? `, { useState }` : ""} from 'react';
 ${functionImport(name, '..', inlineFunc)}
-${ inputs.length > 0 && useTs ? 
+${ useState ? 
   `
   type State = {
     [key: string]: string
@@ -34,7 +35,7 @@ ${ inputs.length > 0 && useTs ?
 }
 ${inline ? "export" : "export default"} function ${capitalize(name)}() {
   ${
-    inputs.length > 0 ?
+    useState ?
     `  ${useStateObject(useTs)}
 
     ${handleChangeObjectState(useTs)}
@@ -48,11 +49,11 @@ ${inline ? "export" : "export default"} function ${capitalize(name)}() {
           inputs.length > 0 ?
           `<p>Function inputs: (${inputs
             .map(({ name, type }) => `${type + " " + `${name}`}: ${dataTypes[type]}`)
-            .join(", ")})</p>
-            ${inputGenerator(inputs)}`
-          : ""}
-      </div>
-      <button className="box button" onClick={async () => await ${name}(${inputs.map(({ name }) => "state?." + name).join(" ,")})} value="" >${name}</button>
+            .join(", ")})</p>`
+            : ""}
+            </div>
+          ${inputGenerator(inputs)}
+        <button className="box-button" onClick={async () => await ${name}(${inputs.map(({ name }) => "state?." + name).join(" ,")})} value="" >${name}</button>
     </div>
   )
 }
