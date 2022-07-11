@@ -71,6 +71,15 @@ export default async function initialise() {
     .then((choices) => {
       options.abiPath = choices["abiPath"]
     });
+    await inquirer
+    .prompt({
+      type: "input",
+      name: "projectPath",
+      message: "Enter path to project directory",
+    })
+    .then((choices) => {
+      options.projectPath = choices["projectPath"]
+    });
 
   await inquirer
     .prompt({
@@ -87,7 +96,8 @@ export default async function initialise() {
     options.functions,
     options.components,
     options.abiPath,
-    options.contract), (error) => {
+    options.contract,
+    options.projectPath), (error) => {
     if (error) throw error;
   });
 
