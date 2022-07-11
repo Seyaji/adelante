@@ -36,11 +36,13 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from './App';
 
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <App />
   </StrictMode>
 );
+
 `,
   };
 };
@@ -68,6 +70,7 @@ export default function App() {
       <div className="components">
         ${functions.map(({ name }) => componentReact(name)).join("\n")}
       </div>
+
     </div>
   )
 }
