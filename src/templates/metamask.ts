@@ -52,6 +52,8 @@ export default function metamask(useTs: boolean) {
         const local = JSON.parse(localStorage.getItem("account") || "none")
         if (local.length > 40) {
           console.log(local)
+          const bal = await getBalance(local)${ useTs ? "as string" : ""}};
+          setBalance(ethers.utils.formatEther(bal));
           setAccount(local)
         }
       } catch (err) {
