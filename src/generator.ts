@@ -116,12 +116,12 @@ export default function generator(abi: any, contractName: string) {
     });
   })();
 
-  // (function copyFIles() {
-  //   fs.copyFile(`${appRoot}/node_modules/adelante/dist/files/App.css`, `./${projectPath}/App.css`, (error) => {
-  //     if (error) throw error;
-  //   }
-  //   );
-  // })()
+  (function copyFIles() {
+    fs.copyFile(`${appRoot}/node_modules/adelante/dist/files/App.css`, `./${projectPath}/App.css`, (error) => {
+      if (error) throw error;
+    }
+    );
+  })()
 
   generatorComplete();
 }
