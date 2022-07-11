@@ -17,7 +17,7 @@ import generator from "./generator.js";
       const { abi, contractName } = await (require(`${appRoot + abiPath}`));
       generator(abi, contractName);
 
-      fs.copyFile(`${appRoot + abiPath}`, `./${contractName}/abi.json`, (error) => {
+      fs.copyFile(`${appRoot + abiPath}`, `./${contractName}/${contractName}.json`, (error) => {
         if (error) {
           console.log("Failed to copy abi.json");
         }
