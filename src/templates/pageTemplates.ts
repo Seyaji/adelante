@@ -36,9 +36,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from './App';
 
-const rootElement = document.getElementById("root");
-
-createRoot(rootElement).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <App />
   </StrictMode>
@@ -53,9 +51,9 @@ export const appFile = (functions: ABI[], useTs: boolean) => {
     extension: `${useTs ? ".tsx" : ".jsx"}`,
     file: `
 import React, { useState } from 'react';
+import './App.css';
 import ${theme(useTs).name} from './${theme(useTs).name}';
 ${navImport(useTs)}
-${metamaskImport(useTs)}
 ${functions.map(({ name }) => componentImport(name, ".")).join("\n")}
 
 export default function App() {
