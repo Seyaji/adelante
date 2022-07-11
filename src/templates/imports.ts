@@ -1,5 +1,7 @@
+import { ABI } from "../types";
 import { capitalize } from "../utils.js";
-import { ABI } from '../types';
+import Metamask from "./metamask.js";
+import Nav from "./nav.js";
 
 export function componentReact(name: string) {
   return `      <${capitalize(name)} />`;
@@ -10,11 +12,15 @@ export function componentImport(name: string, depth: string) {
 }
 
 export function functionImport(name: string, depth: any, inline: boolean) {
-  return `import ${inline ? "{ " + name + " }" : name} from '${depth}/functions/${inline ? 'functions.js' : name}';`;
+  return `import ${inline ? "{ " + name + " }" : name} from '${depth}/functions/${inline ? "functions.js" : name}';`;
 }
 
-export function metamaskImport() {
-  return `import Metamask from './metamask';`;
+export function metamaskImport(useTs: boolean) {
+  return `import ${Metamask(useTs).name} from './${Metamask(useTs).name}';`;
+}
+
+export function navImport(useTs: boolean) {
+  return `import ${Nav(useTs).name} from './${Nav(useTs).name}';`;
 }
 
 export function inlineFuncRequire(useTs: boolean) {
@@ -34,20 +40,22 @@ export function inlineComponentImport(functions: ABI[], inline: boolean, useTs: 
   return `
 import React, { useState } from 'react';
 ${
-  inline ? 
-`
+  inline
+    ? `
 import {
 ${functions.map(({ name }) => `${name},`).join("\n")}
 } from '../functions/functions.js';
-${useTs ? 
-`
+${
+  useTs
+    ? `
 type State = {
   [key: string]: string
 }
 `
-  : ""}
+    : ""
+}
 `
-  : functions.map(({name}) => componentImport(name, '.')).join("\n")
+    : functions.map(({ name }) => componentImport(name, ".")).join("\n")
 }
 `;
 }
