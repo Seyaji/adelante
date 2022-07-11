@@ -12,12 +12,12 @@ import generator from "./generator.js";
     await initialise()
   }
   if (adelanteExists) {
-    const { abiPath } = await require(`${appRoot}/adelante.json`);
+    const { abiPath, projectPath } = await require(`${appRoot}/adelante.json`);
     try {
       const { abi, contractName } = await (require(`${appRoot + abiPath}`));
       generator(abi, contractName);
 
-      fs.copyFile(`${appRoot + abiPath}`, `./${contractName}/${contractName}.json`, (error) => {
+      fs.copyFile(`${appRoot + abiPath}`, `./${projectPath}/${contractName}.json`, (error) => {
         if (error) {
           console.log("Failed to copy abi.json");
         }
