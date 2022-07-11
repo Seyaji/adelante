@@ -26,7 +26,8 @@
   },
   "scripts": {
     "start": "ts-node ./src/index.ts",
-    "startjs": "node ./dist/index.js"
+    "startjs": "node ./dist/index.js",
+    "build": "tsc && ts-node ./build.ts && npm pack"
   },
   "bin": {
     "adelante": "./dist/index.js"
