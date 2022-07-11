@@ -1,6 +1,6 @@
 export default function metamask(useTs: boolean) {
   return ({
-    name: "metamask",
+    name: "Metamask",
     extension: `${useTs ? ".tsx" : ".jsx"}`,
     file: 
 `
@@ -22,21 +22,45 @@ const Metamask = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (account) {
+      console.log("account: ", account);
+      getBalance(account);
+    }
+  }, [account])
 
-  const getBalance = async (account: any) => {
-    return await window.ethereum.request({
-      method: "eth_getBalance",
-      params: [account.toString(), "latest"],
-    });
+  const getBalance = async (account${useTs ? ": any" : ""}) => {
+    try {
+      return await window.ethereum.request({
+        method: "eth_getBalance",
+        params: [account.toString(), "latest"],
+      });
+    } catch (error) {
+      console.log("Failed to retrive balance");
+    }
   }
 
-  const localAccounts = () => {
+  const getAccount = async () => {
+    try {
+      ${useTs ? "// @ts-ignore" : ""}
+      const res${useTs ? ": string[]" : ""} = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      setAccount(res[0]);
+      localStorage.setItem("account", JSON.stringify(res[0]));
+      return res[0];
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const localAccounts = async () => {
     try {
       const local = JSON.parse(localStorage.getItem("account") || "none")
       if (local.length > 40) {
-        console.log(local)
         setAccount(local)
-        accountsChanged(local)
+        const balance = await getBalance(local)${useTs ? " as BigInteger" : ""};
+        setBalance(ethers.utils.formatEther(balance))
       }
     } catch (err) {
       console.log(err)
@@ -46,10 +70,10 @@ const Metamask = () => {
   const connectHandler = async () => {
     if (window.ethereum) {
       try {
-        const res: string[] = await window.ethereum.request({
-          method: "eth_requestAccounts",
-        });
-        await accountsChanged(res[0]);
+        const acc = await getAccount()
+        if (acc) {
+          await accountsChanged()
+        }
       } catch (err) {
         console.log(err);
         setErrorMessage("Couldn't connecting to MetaMask");
@@ -60,26 +84,33 @@ const Metamask = () => {
   };
 
 
-  const accountsChanged = async (newAccount: string) => {
-    setAccount(newAccount);
-    setErrorMessage("");
-    localStorage.setItem("account", JSON.stringify(newAccount));
+  const accountsChanged = async () => {
     try {
-      const balance = await getBalance(newAccount)
-      ${useTs ? "// @ts-ignore" : ""}
+      const newAccount = await getAccount();
+    if (newAccount) {
+      setAccount(newAccount);
+      const balance = await getBalance(newAccount)${useTs ? " as BigInteger" : ""};
       setBalance(ethers.utils.formatEther(balance));
+      setErrorMessage("");
+      localStorage.setItem("account", JSON.stringify(newAccount));
+    }
     } catch (err) {
       console.log(err);
       setBalance("")
       setAccount("")
-      setErrorMessage("Couldn't connecting to MetaMask");
+      setErrorMessage("Couldn't connect to MetaMask");
     }
   };
 
   const chainChanged = () => {
-    setErrorMessage(null);
-    setAccount(null);
-    setBalance(null);
+    (async () => {
+      const acc = await getAccount()
+      if (acc) {
+        localStorage.setItem("account", JSON.stringify(acc));
+        await accountsChanged()
+      }
+    })();
+    setErrorMessage("");
   };
 
   const Connect = () => {
@@ -90,7 +121,7 @@ const Metamask = () => {
 
   return (
     <div id='balance'>
-      {account !== "" ? <p>{errorMessage} Balance: { balance } ETH</p> : <Connect />}
+      {account !== "" ? <p>{errorMessage} Balance: {balance} ETH</p> : <Connect />}
     </div>
   );
 }
