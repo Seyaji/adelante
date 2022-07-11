@@ -7,10 +7,13 @@ import { Input } from '../types'
 const inputGenerator = (inputs: Input[]) => {
   if (inputs.length == 0) return "";
   return `
-        <div id="inputs">
+        <div className="box-inputs">
           ${inputs
             .map(({ name, type }) => {
-              return `<label>${name}: <input name="${name}" onChange={handleChange} type="${dataTypes[type]}" placeholder="${name}"/></label>`;
+              return `
+                <p>${name}</p>
+                <input name="${name}" onChange={handleChange} type="${dataTypes[type]}" placeholder="${name}"/>
+              `;
             })
             .join("\n          ")}
         </div>
@@ -47,7 +50,8 @@ ${inline ? "export" : "export default"} function ${capitalize(name)}() {
       <div className="box-heading">
         <h1>${name}</h1>${
           inputs.length > 0 ?
-          `<p>Function inputs: (${inputs
+          `<p>Function inputs:</p>
+          <p>(${inputs
             .map(({ name, type }) => `${type + " " + `${name}`}: ${dataTypes[type]}`)
             .join(", ")})</p>`
             : ""}
