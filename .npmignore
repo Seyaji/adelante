@@ -6,3 +6,6 @@ types
 tsconfig.json
 yarn.lock
 abi.json
+build.ts
+my-app
+/*.tgz
