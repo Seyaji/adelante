@@ -7,23 +7,26 @@ import { Input } from '../types'
 const inputGenerator = (inputs: Input[]) => {
   if (inputs.length == 0) return "";
   return `
-        <div id="inputs">
-          ${inputs
-            .map(({ name, type }) => {
-              return `<input name="${name}" onChange={handleChange} type="${dataTypes[type]}" placeholder="${name}"/>`;
-            })
-            .join("\n          ")}
-        </div>
+      <div className="box-inputs">
+        ${inputs
+          .map(({ name, type }) => {
+            return ( 
+        `<p>${name}</p>
+        <input name="${name}" onChange={handleChange} type="${dataTypes[type]}" placeholder="${name}"/>`);
+          })
+          .join("\n          ")}
+      </div>
 `;
 };
 
 export default function componentTemplate(name: string, inputs: Input[], outputs: [], inlineFunc: boolean, inline: boolean, useTs: boolean): string {
+  const useState = inputs.length > 0 || outputs.length > 0
   return(
 `${
   inline ? "" : 
-`import React${inputs.length > 0 ? `, { useState }` : ""} from 'react';
+`import React${ useState ? `, { useState }` : ""} from 'react';
 ${functionImport(name, '..', inlineFunc)}
-${ inputs.length > 0 && useTs ? 
+${ useState ? 
   `
   type State = {
     [key: string]: string
@@ -34,7 +37,7 @@ ${ inputs.length > 0 && useTs ?
 }
 ${inline ? "export" : "export default"} function ${capitalize(name)}() {
   ${
-    inputs.length > 0 ?
+    useState ?
     `  ${useStateObject(useTs)}
 
     ${handleChangeObjectState(useTs)}
@@ -42,17 +45,18 @@ ${inline ? "export" : "export default"} function ${capitalize(name)}() {
     : ""
   }
   return (
-    <div id="functionBox">
-      <div id="heading">
+    <div className="function-box">
+      <div className="box-heading">
         <h1>${name}</h1>${
           inputs.length > 0 ?
-          `<p>Function inputs: (${inputs
+          `<p>Function inputs:</p>
+          <p>(${inputs
             .map(({ name, type }) => `${type + " " + `${name}`}: ${dataTypes[type]}`)
-            .join(", ")})</p>
-            ${inputGenerator(inputs)}`
-          : ""}
+            .join(", ")})</p>`
+            : ""}
       </div>
-      <button onClick={async () => await ${name}(${inputs.map(({ name }) => "state?." + name).join(" ,")})} value="" >${name}</button>
+          ${inputGenerator(inputs)}
+        <button className="box-button" onClick={async () => await ${name}(${inputs.map(({ name }) => "state?." + name).join(" ,")})} value="" >${name}</button>
     </div>
   )
 }

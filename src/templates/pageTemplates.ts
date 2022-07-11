@@ -1,6 +1,7 @@
-import { componentReact, componentImport, metamaskImport } from "./imports.js";
+import { componentReact, componentImport, metamaskImport, navImport } from "./imports.js";
 import { capitalize } from "../utils.js";
 import { ABI } from "../types";
+import theme from "./theme.js";
 
 export const indexHtml = (name: string) => {
   return {
@@ -46,20 +47,30 @@ createRoot(document.getElementById("root")!).render(
   };
 };
 
-export const appFile = (functions: ABI[], useTs: boolean)=> {
+export const appFile = (functions: ABI[], useTs: boolean) => {
   return {
     name: "App",
     extension: `${useTs ? ".tsx" : ".jsx"}`,
     file: `
-import React from 'react';
-${metamaskImport()}
+import React, { useState } from 'react';
+import './App.css';
+import ${theme(useTs).name} from './${theme(useTs).name}';
+${navImport(useTs)}
 ${functions.map(({ name }) => componentImport(name, ".")).join("\n")}
 
 export default function App() {
+  const [theme, setTheme] = useState("dark")
+
+  const handleTheme = () => {
+    setTheme(${theme(useTs).name}(theme))
+  }
   return (
-    <div className="home-page">
-      <Metamask />
-      ${functions.map(({ name }) => componentReact(name)).join("\n")}
+    <div className="App">
+    <Nav handleTheme={handleTheme} />
+      <div className="components">
+        ${functions.map(({ name }) => componentReact(name)).join("\n")}
+      </div>
+
     </div>
   )
 }

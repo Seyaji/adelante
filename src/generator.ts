@@ -1,10 +1,12 @@
 import appRoot from "app-root-path";
-import { require, useTs } from "./utils.js";
+import { require, useTs, importer } from "./utils.js";
 
-const { inlineFunctions, inlineComponents, contractAddress, useTypescript } = require(`${appRoot}/adelante.json`);
+const { inlineFunctions, inlineComponents, contractAddress, useTypescript, projectPath } = importer();
 
 import componentTemplate from "./templates/componentTemplate.js";
 import functionTemplate from "./templates/functionTemplate.js";
+import nav from "./templates/nav.js";
+import theme from './templates/theme.js'
 import { getContract } from "./templates/utilFunctions.js";
 import metamask from "./templates/metamask.js";
 import { generatorGreeting, generatorComplete, inProgress } from "./messages.js";
@@ -17,7 +19,7 @@ export default function generator(abi: any, contractName: string) {
   generatorGreeting();
   inProgress();
   // @ts-ignore
-  const functions: ABI[] = abi.filter(({ type }) => type === "function");
+  const functions: ABI[] = abi.filter(({ type }) => type === "function").sort((a, b) => a.inputs.length > b.inputs.length ? -1 : 1);
 
   const contract = contractAddress;
 
@@ -28,6 +30,8 @@ export default function generator(abi: any, contractName: string) {
     appFile(functions, useTypescript),
     indexHtml(contractName),
     metamask(useTypescript),
+    nav(useTypescript),
+    theme(useTypescript),
   ].concat( useTypescript ? tsPages : [] );
 
   
@@ -40,11 +44,11 @@ export default function generator(abi: any, contractName: string) {
   );
 
   (function genFunctions() {
-    fs.mkdir(`./${contractName}/functions`, { recursive: true }, (error) => {
+    fs.mkdir(`./${projectPath}/functions`, { recursive: true }, (error) => {
       if (error) throw error;
       if (inlineFunctions) {
         fs.writeFile(
-          `./${contractName}/functions/functions.ts`,
+          `./${projectPath}/functions/functions.ts`,
           [inlineFuncRequire(useTypescript), ...functionMap].join(""),
           (error) => {
             if (error) throw error;
@@ -54,7 +58,7 @@ export default function generator(abi: any, contractName: string) {
       if (!inlineFunctions) {
         functionMap.map((component, index) => {
           fs.writeFile(
-            `./${contractName}/functions/${functions[index].name}${useTs(useTypescript, ".ts", ".js")}`,
+            `./${projectPath}/functions/${functions[index].name}${useTs(useTypescript, ".ts", ".js")}`,
             component,
             (error) => {
               if (error) throw error;
@@ -66,11 +70,11 @@ export default function generator(abi: any, contractName: string) {
   })();
 
   (function genComponents() {
-    fs.mkdir(`./${contractName}/components`, { recursive: true }, (error) => {
+    fs.mkdir(`./${projectPath}/components`, { recursive: true }, (error) => {
       if (error) throw error;
       if (inlineComponents) {
         fs.writeFile(
-          `./${contractName}/components/components.tsx`,
+          `./${projectPath}/components/components.tsx`,
           [inlineComponentImport(functions, inlineFunctions, useTypescript), ...componentMap].join(""),
           (error) => {
             if (error) throw error;
@@ -80,7 +84,7 @@ export default function generator(abi: any, contractName: string) {
       if (!inlineComponents) {
         componentMap.map((component, index) => {
           fs.writeFile(
-            `./${contractName}/components/${functions[index].name}${useTs(useTypescript, ".tsx", ".jsx")}`,
+            `./${projectPath}/components/${functions[index].name}${useTs(useTypescript, ".tsx", ".jsx")}`,
             component,
             (error) => {
               if (error) throw error;
@@ -92,10 +96,10 @@ export default function generator(abi: any, contractName: string) {
   })();
 
   (function genPages() {
-    fs.mkdir(`./${contractName}/`, { recursive: true }, (error) => {
+    fs.mkdir(`./${projectPath}/`, { recursive: true }, (error) => {
       if (error) throw error;
       pages.map(({ name, file, extension }) => {
-        const path = `./${contractName}/${name}${extension}`;
+        const path = `./${projectPath}/${name}${extension}`;
         fs.writeFile(path, file, (error) => {
           if (error) throw error;
         });
@@ -104,13 +108,20 @@ export default function generator(abi: any, contractName: string) {
   })();
 
   (function genUtils() {
-    fs.mkdir(`./${contractName}/utils`, { recursive: true }, (error) => {
+    fs.mkdir(`./${projectPath}/utils`, { recursive: true }, (error) => {
       if (error) throw error;
-      fs.writeFile(`./${contractName}/utils/utils${useTs(useTypescript, ".ts", ".js")}`, utils, (error) => {
+      fs.writeFile(`./${projectPath}/utils/utils${useTs(useTypescript, ".ts", ".js")}`, utils, (error) => {
         if (error) throw error;
       });
     });
   })();
+
+  // (function copyFIles() {
+  //   fs.copyFile(`${appRoot}/node_modules/adelante/dist/files/App.css`, `./${projectPath}/App.css`, (error) => {
+  //     if (error) throw error;
+  //   }
+  //   );
+  // })()
 
   generatorComplete();
 }
