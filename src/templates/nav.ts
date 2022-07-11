@@ -5,7 +5,7 @@ export default function Nav(useTs: boolean) {
       file: 
 `
 import React from 'react';
-import Metamask from './metamask';
+import Metamask from './Metamask';
 ${ useTs ? 
 `interface Props {
   handleTheme: () => void;
