@@ -19,7 +19,7 @@ export default function generator(abi: any, contractName: string) {
   generatorGreeting();
   inProgress();
   // @ts-ignore
-  const functions: ABI[] = abi.filter(({ type }) => type === "function");
+  const functions: ABI[] = abi.filter(({ type }) => type === "function").sort((a, b) => a.inputs.length > b.inputs.length ? -1 : 1);
 
   const contract = contractAddress;
 
