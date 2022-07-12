@@ -19,7 +19,10 @@ It automatically:
 - generates an App.*sx file populated with the generated components
 
 Other functionality:
+
 It logs function calls and the return data from them (if any)
+
+<img width="918" alt="Screenshot 2022-07-12 at 15 44 04" src="https://user-images.githubusercontent.com/67058118/178523396-0a4cb111-79c5-4fe8-8a10-1597d2e7d6f9.png">
 
 Features in development before 1.2.0
 
