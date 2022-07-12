@@ -2,6 +2,7 @@ node_modules
 dist
 UnitTrust
 types
+tests/coverage
 /src/abi.json
 adelante.json
 my-app
