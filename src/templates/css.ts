@@ -1,4 +1,9 @@
-
+export default function css() {
+  return {
+    name: "App",
+    extension: ".css",
+    file: 
+`
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500&family=Ubuntu:wght@300;500&display=swap');
 
 html {
@@ -12,6 +17,22 @@ html {
   padding: 0;
   background-color: var(--main-color);
   color: var(--font-color);
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 0px;
+  background-color: var(--main-color);
+
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 0px;
+  background-color: var(--font-color);
 }
 
 p {
@@ -63,6 +84,12 @@ nav li:hover {
   cursor: pointer;
 }
 
+#nav-text {
+  width: 600px;
+  font-size: .7em;
+  text-align: center;
+}
+
 button {
   margin: 1em;
   padding: 0.3em;
@@ -90,6 +117,43 @@ button {
   flex-wrap: wrap;
   justify-content: center;
   background-color: var(--main-color);
+}
+
+.footer {
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  border-top: 2px solid var(--heading-color);
+}
+
+.connection-details {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  margin: 2em;
+  margin-left: 4em;
+  margin-right: 4em;
+  padding: 2em;
+  border: 2px solid var(--heading-color);
+}
+
+.logs {
+  align-self: center;
+  width: 95%;
+  padding: 1em;
+  height: 200px;
+  overflow-y: scroll;
+  border: 2px solid var(--heading-color);
+}
+
+.text-extra {
+  color: var(--extra-color);
+}
+
+.log-data {
+  color: var(--font-color);
 }
 
 .function-box {
@@ -124,6 +188,10 @@ button {
   flex-direction: column;
   align-items: center;
   width: 100%;
+}
+
+input[type=number]::-webkit-inner-spin-button {
+  opacity: 0;
 }
 
 .box-inputs p {
@@ -170,4 +238,8 @@ button:hover {
   border: 3px solid var(--secondary-color);
   color: var(--main-color);
   background-color: var(--font-color);
+}
+
+`
+  }
 }
