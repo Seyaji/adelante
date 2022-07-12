@@ -1,0 +1,24 @@
+{
+  "include": ["src/**/*"],
+  "compilerOptions": {
+    "module": "ESNext",
+    "esModuleInterop": true,
+    "jsx": "react",
+    "target": "ESNext",
+    "moduleResolution": "Node",
+    "outDir": "dist",
+    // "declaration": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": false,
+    "strict": true,
+    "noImplicitAny": true,
+    "useUnknownInCatchVariables": false,
+    "inlineSourceMap": false,
+  },
+  "ts-node": {
+      "esm": true,
+      "files": true,
+  },
+  "lib": ["esnext"]
+}
