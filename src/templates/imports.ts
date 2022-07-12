@@ -1,38 +1,23 @@
 import { ABI } from "../types";
 import { capitalize } from "../utils.js";
-import Metamask from "./metamask.js";
-import Nav from "./nav.js";
 
-export function componentReact(name: string) {
-  return `      <${capitalize(name)} />`;
+export function componentReact(name: string, props: any[]) {
+  return `      <${capitalize(name)} ${ props.length > 0 ? props.map((prop) => `${prop.name}={${prop.name}}`).join(" ") : ""} />`;
 }
 
-export function componentImport(name: string, depth: string) {
-  return `import ${capitalize(name)} from '${depth}/components/${name}';`;
+export function componentImport(name: string, path: string) {
+  return `import ${capitalize(name)} from '${path}${name}';`;
 }
 
 export function functionImport(name: string, depth: any, inline: boolean) {
   return `import ${inline ? "{ " + name + " }" : name} from '${depth}/functions/${inline ? "functions.js" : name}';`;
 }
 
-export function metamaskImport(useTs: boolean) {
-  return `import ${Metamask(useTs).name} from './${Metamask(useTs).name}';`;
-}
 
-export function navImport(useTs: boolean) {
-  return `import ${Nav(useTs).name} from './${Nav(useTs).name}';`;
-}
-
-export function inlineFuncRequire(useTs: boolean) {
+export function inlineFunctionImport() {
   return `
 import { getContract } from '../utils/utils';
-${useTs ? "import { ethers } from 'ethers';" : ""}
-`;
-}
-export function inlineFunctionImport(useTs: boolean) {
-  return `
-import { getContract } from '../utils/utils';
-${useTs ? "import { ethers } from 'ethers';" : ""}
+import { ethers } from 'ethers';
 `;
 }
 
