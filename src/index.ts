@@ -1,43 +1,48 @@
 #!/usr/bin/env node
-import appRoot from 'app-root-path'
-import { require } from './utils.js'
+import appRoot from "app-root-path";
+import { createRequire } from "module";
+export const require = createRequire(import.meta.url);
 import fs from "fs";
 import initialise from "./init.js";
 import generator from "./generator.js";
-
+import { missingAdelante, missingAbi, unknownFailure } from "./messages.js";
 
 (async function fileExists() {
+  const args = process.argv.slice(2);
 
-  const adelanteExists = await fs.existsSync("./adelante.json");
-  if (!adelanteExists) {
-    await initialise()
+  if (args.filter((arg) => arg.match(/^--init$/)).length === 1) {
+    initialise();
   }
-  if (adelanteExists) {
-    const { abiPath, projectPath } = await require(`${appRoot}/adelante.json`);
-    try {
-      const { abi, contractName } = await (require(`${appRoot + abiPath}`));
-      generator(abi, contractName);
 
-      fs.copyFile(`${appRoot + abiPath}`, `./${projectPath}/${contractName}.json`, (error) => {
-        if (error) {
-          console.log("Failed to copy abi.json");
-        }
-      })
-    } catch(error) {
-      console.log("root: ", appRoot);
-      console.log("path: ",abiPath);
-      console.log("attempted: ", appRoot + abiPath);
-      console.log("<:><:><:><:><:><:><:><:><:><:><:>");
-      console.log("");
-      console.log("Failed to generate...");
-      console.log("Make sure your adelante.json file is configured properly.");
-      console.log("");
-      console.log("In case of type errors please raise an issue on GitHub :)");
-      console.log("");
-      console.log("<:><:><:><:><:><:><:><:><:><:><:>");
+  if (args.length === 0) {
+    try {
+      const adelante = await require(`${appRoot}/adelante.json`);
+      const { abiPath, projectPath } = adelante;
+
+      try {
+        const { abi, contractName } = await require(`${appRoot + abiPath}`);
+
+        try {
+          generator(abi, contractName, adelante);
+          fs.copyFile(`${appRoot + abiPath}`, `./${projectPath}/${contractName}.json`, (error) => {
+            if (error) {
+              console.log("Failed to copy abi.json");
+            }
+          });
+        } catch (error) {
+          console.log(error);
+          unknownFailure();
+        } finally {}
+
+      } catch (error) {
+        console.log(error)
+        missingAbi()
+      }
+      finally {}
+      
+    } catch (error) {
       console.log(error)
+      missingAdelante();
     }
   }
-  
-})()
-
+})();

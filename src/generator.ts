@@ -1,7 +1,5 @@
-import { useTs, importer } from "./utils.js";
 
-const { inlineFunctions, inlineComponents, contractAddress, useTypescript, projectPath } = importer();
-
+import { useTs } from "./utils.js";
 import componentTemplate from "./templates/componentTemplate.js";
 import functionTemplate from "./templates/functionTemplate.js";
 import nav from "./templates/nav.js";
@@ -16,7 +14,8 @@ import { handleChangeArray } from "./templates/utilSnippets.js";
 import { ABI } from "./types";
 import fs from "fs";
 
-export default function generator(abi: any, contractName: string) {
+export default function generator(abi: any, contractName: string, adelante: any) {
+  const { inlineFunctions, inlineComponents, contractAddress, useTypescript, projectPath } = adelante;
   generatorGreeting();
   inProgress();
   // @ts-ignore
