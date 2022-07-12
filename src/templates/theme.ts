@@ -2,7 +2,7 @@ export default function theme(useTs: boolean) {
   return {
     name: "changeTheme",
     extension: `${useTs ? ".ts" : ".js"}`,
-    file: `export default function changeTheme(theme${useTs ? ": string" : ""}): string {
+    file: `export default function changeTheme(theme${useTs ? ": string" : ""})${useTs ? ": string" : ""} {
 
     const colors = {
       dark: {
