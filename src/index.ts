@@ -5,6 +5,7 @@ import fs from "fs";
 import initialise from "./init.js";
 import generator from "./generator.js";
 
+
 (async function fileExists() {
 
   const adelanteExists = await fs.existsSync("./adelante.json");
@@ -23,11 +24,18 @@ import generator from "./generator.js";
         }
       })
     } catch(error) {
+      console.log("root: ", appRoot);
+      console.log("path: ",abiPath);
+      console.log("attempted: ", appRoot + abiPath);
       console.log("<:><:><:><:><:><:><:><:><:><:><:>");
       console.log("");
-      console.log("No ABI found. Please check your adelante.json file.");
+      console.log("Failed to generate...");
+      console.log("Make sure your adelante.json file is configured properly.");
+      console.log("");
+      console.log("In case of type errors please raise an issue on GitHub :)");
       console.log("");
       console.log("<:><:><:><:><:><:><:><:><:><:><:>");
+      console.log(error)
     }
   }
   

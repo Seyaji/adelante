@@ -18,6 +18,13 @@ export interface ABI {
   type: string;
 }
 
+export interface CompProps {
+  name: string;
+  type: string;
+  function: string;
+  handle: string;
+}
+
 export interface Adelante {
   useTypescript?: boolean;
   inlineFunctions: boolean;

@@ -7,7 +7,7 @@ export default function metamask(useTs: boolean) {
   import React, { useEffect, useState } from 'react';
   import { ethers } from "ethers";
   
-  const Metamask = () => {
+  export default function Metamask() {
   
     const [errorMessage, setErrorMessage] = useState${useTs ? "<string>" : ""}("");
     const [account, setAccount] = useState${useTs ? "<string>" : ""}("");
@@ -37,7 +37,7 @@ export default function metamask(useTs: boolean) {
     const getAccount = async () => {
       try {
         ${ useTs ? "// @ts-ignore" : ""}
-        const res: string[] = await window.ethereum.request({
+        const res${useTs ? ": string[]" : ""} = await window.ethereum.request({
           method: "eth_requestAccounts",
         });
         setAccount(res[0]);
@@ -47,12 +47,11 @@ export default function metamask(useTs: boolean) {
       }
     }
   
-    const localAccounts = () => {
+    const localAccounts = async () => {
       try {
         const local = JSON.parse(localStorage.getItem("account") || "none")
         if (local.length > 40) {
-          console.log(local)
-          const bal = await getBalance(local)${ useTs ? "as string" : ""}};
+          const bal = await getBalance(local)${ useTs ? " as string" : ""};
           setBalance(ethers.utils.formatEther(bal));
           setAccount(local)
         }
@@ -118,6 +117,5 @@ export default function metamask(useTs: boolean) {
       </div>
     );
   }
-  export default Metamask
 `})
 }
