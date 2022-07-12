@@ -1,10 +1,10 @@
-import { handleChangeObjectState, useStateObject } from "./utilSnippets.js";
+import { handleChangeObjectState, useStateObject, handleClickEvent, stateType } from "./utilSnippets.js";
 import { functionImport } from "./imports.js";
-import { capitalize } from "../utils.js";
+import { capitalize, propsFilter, funcFormat } from "../utils.js";
 import dataTypes from "../templates/dataTypes.js";
-import { Input } from '../types'
+import { Input, CompProps } from '../types'
 
-const inputGenerator = (inputs: Input[]) => {
+const inputGenerator = (inputs: Input[], state: string) => {
   if (inputs.length == 0) return "";
   return `
       <div className="box-inputs">
@@ -12,51 +12,64 @@ const inputGenerator = (inputs: Input[]) => {
           .map(({ name, type }) => {
             return ( 
         `<p>${name}</p>
-        <input name="${name}" onChange={handleChange} type="${dataTypes[type]}" placeholder="${name}"/>`);
+        <input name="${name}" onChange={handle${capitalize(state)}Change} type="${dataTypes[type]}" placeholder="${name}"/>`);
           })
           .join("\n          ")}
       </div>
 `;
 };
 
-export default function componentTemplate(name: string, inputs: Input[], outputs: [], inlineFunc: boolean, inline: boolean, useTs: boolean): string {
-  const useState = inputs.length > 0 || outputs.length > 0
+export default function componentTemplate(name: string, inputs: Input[], outputs: [], inlineFunc: boolean, inline: boolean, useTs: boolean, logs: boolean, props: CompProps[]): string {
+  const useState = inputs.length > 0
+  const filteredProps: any = propsFilter(props, outputs)
+  const handleChange = handleChangeObjectState(useTs, "state", "none", [])
+  const handleClick = handleClickEvent(useTs, "logs", name, inputs,  `${props.map((prop) => prop.handle === "none" ? `${prop.name}(["${name}", outcome])` : "").join("\n      ")}`)
+  const buttonClick = handleClick.name 
+  // `async () => await ${name}(${inputs.map(({ name }) => "state?." + name).join(" ,")})`
+  const propsTypeMap = filteredProps.map((prop: any) => `${prop.name}: ${prop.type};`).join("\n  ")
   return(
 `${
   inline ? "" : 
 `import React${ useState ? `, { useState }` : ""} from 'react';
 ${functionImport(name, '..', inlineFunc)}
-${ useState ? 
+${useTs ? 
   `
-  type State = {
-    [key: string]: string
-  }
-  `
+${stateType("props", `${propsTypeMap}`, false).function}
+${
+  useState ?
+`
+${stateType("state", "[key: string]: string", false ).function}
+`
   : ""
-}`
 }
-${inline ? "export" : "export default"} function ${capitalize(name)}() {
+`
+  : ""}
+
+`}
+${inline ? "export" : "export default"} function ${capitalize(name)}(${useState || logs ? `props ${useTs ? ": Props" : ""}` : ""}) {
+  ${useState || logs ? `const { ${filteredProps.map((prop: any) => `${prop.name}`).join(", ")} } = props` : ""}
   ${
     useState ?
-    `  ${useStateObject(useTs)}
-
-    ${handleChangeObjectState(useTs)}
+`${useStateObject(useTs, "state", "{}").function}
+    ${handleChange.function}
     `
     : ""
   }
+  ${handleClick.function}
   return (
     <div className="function-box">
       <div className="box-heading">
-        <h1>${name}</h1>${
+        <h1>${capitalize(funcFormat(name))}</h1>
+        <span className="text-extra"><p>${name}</p></span>${
           inputs.length > 0 ?
           `<p>Function inputs:</p>
           <p>(${inputs
-            .map(({ name, type }) => `${type + " " + `${name}`}: ${dataTypes[type]}`)
+            .map(({ name, type }) => `<span className="text-extra">${type + " " + `${name}`}:</span> ${dataTypes[type]}`)
             .join(", ")})</p>`
             : ""}
       </div>
-          ${inputGenerator(inputs)}
-        <button className="box-button" onClick={async () => await ${name}(${inputs.map(({ name }) => "state?." + name).join(" ,")})} value="" >${name}</button>
+          ${inputGenerator(inputs, "state")}
+        <button className="box-button" onClick={${buttonClick}} value="" >${name}</button>
     </div>
   )
 }
