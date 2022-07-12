@@ -53,7 +53,14 @@ yarn add adelante
 then run:
 
 ```
-npx adelante
+npx adelante --init
+```
+you will be asked some questions to configure adelante.json
+if you want to use a default configuration and edit the json manually pick 'No' for the first question
+
+then to generate the files use:
+```
+npx adelante 
 ```
 
 If you have no adelante.json in your root directory you will be asked some questions to generate one.
