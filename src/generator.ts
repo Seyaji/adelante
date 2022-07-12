@@ -1,5 +1,4 @@
-import appRoot from "app-root-path";
-import { require, useTs, importer } from "./utils.js";
+import { useTs, importer } from "./utils.js";
 
 const { inlineFunctions, inlineComponents, contractAddress, useTypescript, projectPath } = importer();
 
@@ -7,11 +6,13 @@ import componentTemplate from "./templates/componentTemplate.js";
 import functionTemplate from "./templates/functionTemplate.js";
 import nav from "./templates/nav.js";
 import theme from './templates/theme.js'
+import css from "./templates/css.js";
 import { getContract } from "./templates/utilFunctions.js";
 import metamask from "./templates/metamask.js";
 import { generatorGreeting, generatorComplete, inProgress } from "./messages.js";
-import { indexFile, appFile, typeDeclaration, indexHtml } from "./templates/pageTemplates.js";
-import { inlineComponentImport, inlineFuncRequire } from "./templates/imports.js";
+import { indexFile, appFile, typeDeclaration, indexHtml, footer, details } from "./templates/pageTemplates.js";
+import { inlineComponentImport, inlineFunctionImport } from "./templates/imports.js";
+import { handleChangeArray } from "./templates/utilSnippets.js";
 import { ABI } from "./types";
 import fs from "fs";
 
@@ -27,20 +28,21 @@ export default function generator(abi: any, contractName: string) {
   const tsPages = [typeDeclaration()]
   const pages = [
     indexFile(useTypescript),
-    appFile(functions, useTypescript),
+    appFile(functions, useTypescript, [handleChangeArray(useTypescript, "masterLogs", "data", "none")]),
     indexHtml(contractName),
     metamask(useTypescript),
     nav(useTypescript),
     theme(useTypescript),
+    footer(useTypescript),
+    details(useTypescript, []),
+    css(),
   ].concat( useTypescript ? tsPages : [] );
-
-  
 
   const functionMap = functions.map(({ name, inputs, outputs, stateMutability }) =>
     functionTemplate(name, inputs, outputs, stateMutability, inlineFunctions, useTypescript)
   );
   const componentMap = functions.map(({ name, inputs, outputs }) =>
-    componentTemplate(name, inputs, outputs, inlineFunctions, inlineComponents, useTypescript)
+    componentTemplate(name, inputs, outputs, inlineFunctions, inlineComponents, useTypescript, true, [handleChangeArray(useTypescript, "masterLogs", "data", "none")])
   );
 
   (function genFunctions() {
@@ -48,8 +50,8 @@ export default function generator(abi: any, contractName: string) {
       if (error) throw error;
       if (inlineFunctions) {
         fs.writeFile(
-          `./${projectPath}/functions/functions.ts`,
-          [inlineFuncRequire(useTypescript), ...functionMap].join(""),
+          `./${projectPath}/functions/functions${useTs(useTypescript, ".ts", ".js")}`,
+          [inlineFunctionImport(), ...functionMap].join(""),
           (error) => {
             if (error) throw error;
           }
@@ -74,7 +76,7 @@ export default function generator(abi: any, contractName: string) {
       if (error) throw error;
       if (inlineComponents) {
         fs.writeFile(
-          `./${projectPath}/components/components.tsx`,
+          `./${projectPath}/components/components${useTs(useTypescript, ".tsx", ".jsx")}`,
           [inlineComponentImport(functions, inlineFunctions, useTypescript), ...componentMap].join(""),
           (error) => {
             if (error) throw error;
@@ -115,13 +117,6 @@ export default function generator(abi: any, contractName: string) {
       });
     });
   })();
-
-  (function copyFIles() {
-    fs.copyFile(`${appRoot}/node_modules/adelante/dist/files/App.css`, `./${projectPath}/App.css`, (error) => {
-      if (error) throw error;
-    }
-    );
-  })()
 
   generatorComplete();
 }
