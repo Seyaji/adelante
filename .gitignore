@@ -5,4 +5,5 @@ types
 /src/abi.json
 adelante.json
 my-app
+abi.json
 /*.tgz
