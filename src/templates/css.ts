@@ -152,7 +152,7 @@ button {
   color: var(--extra-color);
 }
 
-.log-data {
+.log-text {
   color: var(--font-color);
 }
 
