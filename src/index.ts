@@ -42,6 +42,7 @@ import { missingAdelante, missingAbi, unknownFailure } from "./messages.js";
       
     } catch (error) {
       console.log(error)
+      console.log(`${appRoot}`)
       missingAdelante();
     }
   }
