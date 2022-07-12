@@ -120,6 +120,11 @@ export default async function getRemainingUnits() {
 ### Creates React components for the functions
 These components have inputs and a button to call the smart contract function along with state and a handleChange function
 
+<img width="323" alt="Screenshot 2022-07-12 at 16 10 54" src="https://user-images.githubusercontent.com/67058118/178523907-2d513920-4ef4-4d65-b079-8677e41d9ce4.png">
+
+<img width="326" alt="Screenshot 2022-07-12 at 16 12 04" src="https://user-images.githubusercontent.com/67058118/178524096-7b363ac9-084f-4f42-8eec-febaae740f98.png">
+
+
 ```jsx
 import React, { useState } from 'react';
 import purchaseUnit from '../functions/purchaseUnit';
