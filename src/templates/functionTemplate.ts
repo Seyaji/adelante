@@ -49,6 +49,7 @@ ${inline ? "export" : "export default"} async function ${name}(${inputMap(useTs)
   }
   catch (error) {
     console.log(error);
+    return "${name} failed";
   }
 }`;
 }
