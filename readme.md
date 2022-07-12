@@ -1,28 +1,40 @@
 # Adelante
 
 ## what is adelante?
-This is a code generation tool to aid in the rapid prototyping of smart contracts built with solidity
+https://www.npmjs.com/package/adelante
 
-As of version 1.1.3 you can:
+This is a code generation tool to aid in the rapid prototyping of smart contracts built with solidity.
+
+As of version 1.1.4 you can:
 - generate inline functions or extract them to their own files
 - generate inline components or extract them to their own files
 - use a combination of the two, e.g inline functions and extracted components
+- generate javascript files
+- define the output path in the adelante.json
+
+It automatically:
+- generates metamask connect fucntionality and component
+- generates a css file
+- generates a html file
+- generates an App.*sx file populated with the generated components
+
+Other functionality:
+It logs function calls and the return data from them (if any)
 
 Features in development before 1.2.0
-- generate javascript files - complete awaiting npm publish
-- generate metamask connect component - complete awaiting npm publish
-- generate css file based off theme - in progress
 
 
 Planned features: 
-- create a 'masterState' component that will store the state of all the components and output logs and other details.
-- filter out functions from inherited OpenZeppelin contracts that are not callable by owner or user. 
+- add args processing when calling npx
+- make html,index and app file generation optional (components and functions only formatted for genreral use)
+- user defined themes
 - generate test files for the generated files? 
 
 if you like it, send me a coffee :)
 
 Eth address: 0x4A079D4417b522762C72dB9643234FCC4683a40E
 ## how can I make it work??
+
 run:
 
 ```
@@ -47,14 +59,18 @@ it's reccomended that you
 
 - copy your abi file into the root project directory
 - define the path to your abi file in the adelante .json file (if you didnt do it when you generated the adelante file)
+- it will genrate without a contract address but one should be addded if you want to it to work properly
 (If you dont generate an adelante file it will run the default generator)
 ```json
+
 
 {
   "useTypescript": true,
   "inlineFunctions": false,
   "inlineComponents": false,
-  "abiPath": "/abi.json"
+  "abiPath": "/abi.json", // Path to the abi.file from your smart contract (it must be in your project directory)
+  "contractAddress": "ENTER_CONTRACT_ADDRESS_HERE",
+  "projectPath": "/my-app/src" // Path to app directory, if you want to use create-react-app the path should be to the src file 
 }
 
 ```
@@ -68,19 +84,33 @@ it's reccomended that you
 
 The functions will return data if it is expected, otherwise it will not generate a return statement.
 
+Things to note: 
+
+- with payable functions an ethers.utils.parseEther() is generated in the function file but an amount is not provided
+
+how come? 
+payable functions dont require the ether amount to de defined as an argument in the function inputs (these are recorded in the contract abi which is the source for the code generation)
+
 ```js
-import { getContract } from '../utils/utils';
+import { getContract } from '../utils/utils'
+/* 
+if the function is payable it will use: 
+import { ethers } from 'ethers';
 
+and modify the function call to include it:
+await contract.getRemainingUnits({ value: ethers.utils.parseEther("0.00")});
+*/
 
-export default async function getTotalUnits() {
+export default async function getRemainingUnits() {
   try {
     const { ethereum } = window;
     const contract = getContract(ethereum);
-    const data = await contract.getTotalUnits();
+    const data = await contract.getRemainingUnits();
     return data;
   }
   catch (error) {
     console.log(error);
+    return "getRemainingUnits failed";
   }
 }
 ```
@@ -88,19 +118,22 @@ export default async function getTotalUnits() {
 These components have inputs and a button to call the smart contract function along with state and a handleChange function
 
 ```jsx
-
 import React, { useState } from 'react';
 import purchaseUnit from '../functions/purchaseUnit';
 
+type Props = {
+  handleMasterLogsChange: (data: any) => void;
+};
+
 type State = {
   [key: string]: string
-}
+};
 
-
-export default function PurchaseUnit() {
-  const [state, setState] = useState<State>({})
-  
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+export default function PurchaseUnit(props : Props) {
+  const { handleMasterLogsChange } = props
+  const [state, setState] = useState<State>({});
+    
+  const handleStateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     setState((prevState) => {
       return {
@@ -108,20 +141,29 @@ export default function PurchaseUnit() {
         [name]: value
       }
     })
+    
+  }
+  
+  const handleLogsClick = async (event: any) => {
+    const data = await purchaseUnit(state?._amount)
+    const outcome = data === "purchaseUnit failed" ? "failed" : `success: ${JSON.stringify(data)}`
+    handleMasterLogsChange(["purchaseUnit", outcome])
   }
 
   return (
-    <div id="functionBox">
-      <div id="heading">
-        <h1>purchaseUnit</h1>
-        <p>Function inputs: (uint16 _amount: number)</p>
-        
-        <div id="inputs">
-        <input name="_amount" onChange={handleChange} type="number" placeholder="_amount"/>
-        </div>
-
+    <div className="function-box">
+      <div className="box-heading">
+        <h1>Purchase Unit</h1>
+        <span className="text-extra"><p>purchaseUnit</p></span><p>Function inputs:</p>
+          <p>(<span className="text-extra">uint16 _amount:</span> number)</p>
       </div>
-      <button onClick={async () => await purchaseUnit(state?._amount)} value="">purchaseUnit</button>
+          
+      <div className="box-inputs">
+        <p>_amount</p>
+        <input name="_amount" onChange={handleStateChange} type="number" placeholder="_amount"/>
+      </div>
+
+        <button className="box-button" onClick={handleLogsClick} value="" >purchaseUnit</button>
     </div>
   )
 }
@@ -139,26 +181,32 @@ import GetRemainingUnits from './components/getRemainingUnits';
 import GetTotalUnits from './components/getTotalUnits';
 import PurchaseUnit from './components/purchaseUnit';
 
+type MasterLogs = any[];
 
 export default function App() {
+  const [theme, setTheme] = useState("dark")
+  const [masterLogs, setMasterLogs] = useState<MasterLogs>([]);
+
+  const handleMasterLogsChange = (data: any) => {
+    setMasterLogs(prevState => [data, ...prevState])
+  }
+
+  const handleTheme = () => {
+    setTheme(changeTheme(theme))
+  }
   return (
     <div className="home-page">
-      <FundWithdraw />
-      <GetInvestor />
-      <GetRemainingUnits />
-      <GetTotalUnits />
-      <PurchaseUnit />
-
+      <Nav handleTheme={handleTheme} />
+      <Details masterLogs={masterLogs} />
+      <div className="components">
+        <FundWithdraw />
+        <GetInvestor />
+        <GetRemainingUnits />
+        <GetTotalUnits />
+        <PurchaseUnit />
+      </div>
     </div>
   )
 }
 ```
-
-
-Things to note: 
-
-- with payable functions an ethers.utils.parseEther() is generated in the function file but an amount is not provided
-
-how come? 
-payable functions dont require the ether amount to de defined as an argument in the function inputs (these are recorded in the contract abi which is the source for the code generation)
 
