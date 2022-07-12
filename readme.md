@@ -63,14 +63,13 @@ then to generate the files use:
 npx adelante 
 ```
 
-If you have no adelante.json in your root directory you will be asked some questions to generate one.
 
 it's reccomended that you
 
 - copy your abi file into the root project directory
 - define the path to your abi file in the adelante .json file (if you didnt do it when you generated the adelante file)
 - it will genrate without a contract address but one should be addded if you want to it to work properly
-(If you dont generate an adelante file it will run the default generator)
+
 ```json
 
 
