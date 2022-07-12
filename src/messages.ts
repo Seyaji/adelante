@@ -16,7 +16,7 @@ export const initGreeting = () => {
   console.log("React code generation for Solidity!");
   console.log("");
   console.log("        Created by Seyaji  ");
-  console.log("                           v1.1.5)");
+  console.log("                           v1.1.5");
   console.log("<:><:><:><:><:><:><:><:><:><:><:>");
   console.log("");
   console.log("");
@@ -88,6 +88,8 @@ export const missingAdelante = () => {
   console.log("");
   console.log("Failed to generate...");
   console.log("Make sure your adelante.json file is configured properly.");
+  console.log("");
+  console.log("If you havent configured your adelante.json run npx adelante --init");
   console.log("");
   console.log("In case of type errors please raise an issue on GitHub :)");
   console.log("");
