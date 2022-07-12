@@ -169,7 +169,6 @@ export default function PurchaseUnit(props : Props) {
 }
 
 ```
-- creates the index.ts, index.html & App files 
 - populates the appfile with the components
 
 ```jsx
