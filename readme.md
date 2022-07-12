@@ -213,11 +213,11 @@ export default function App() {
       <Nav handleTheme={handleTheme} />
       <Details masterLogs={masterLogs} />
       <div className="components">
-        <FundWithdraw />
-        <GetInvestor />
-        <GetRemainingUnits />
-        <GetTotalUnits />
-        <PurchaseUnit />
+        <PostUnit handleMasterLogsChange={handleMasterLogsChange} />
+        <TransferUnit handleMasterLogsChange={handleMasterLogsChange} />
+        <UpgradeToAndCall handleMasterLogsChange={handleMasterLogsChange} />
+        <CloseUnitTrust handleMasterLogsChange={handleMasterLogsChange} />
+        <FundWithdraw handleMasterLogsChange={handleMasterLogsChange} />
       </div>
     </div>
   )
