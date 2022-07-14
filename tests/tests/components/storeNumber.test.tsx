@@ -22,12 +22,12 @@ describe('Test for storeNumber component', () => {
   it('should render without exploding, () => {}', () => {
     expect(() => setup()).not.toThrow();
   })
-  
-  it('should render StoreNumber input', () => {
+
+  it('should render StoreNumber inputs', () => {
     setup();
     expect(screen.getAllByRole("spinbutton").length).toBe(1);
+    expect(screen.getByRole("spinbutton", {name: "_number"})).toBeInTheDocument()
   })
-
 
   it('should render the button to call the contract function', () => {
     setup();
@@ -49,5 +49,13 @@ describe('Test for storeNumber component', () => {
 
     expect(handleMock).toHaveBeenCalled();
     expect(consoleSpy.mock.calls.length).toBe(1);
+  })
+
+  it('should handle input change correctly', async () => {
+    setup();
+    
+    const _number = screen.getByRole("spinbutton", {name: "_number"})
+    await userEvent.type(_number, "150") 
+    expect(screen.getByRole("spinbutton", {name: "_number"})).toHaveValue(150)
   })
 })

@@ -22,7 +22,12 @@ describe('Test for getNumber component', () => {
   it('should render without exploding, () => {}', () => {
     expect(() => setup()).not.toThrow();
   })
+
+  it('should render GetNumber inputs', () => {
+    setup();
   
+  
+  })
 
   it('should render the button to call the contract function', () => {
     setup();
@@ -44,5 +49,10 @@ describe('Test for getNumber component', () => {
 
     expect(handleMock).toHaveBeenCalled();
     expect(consoleSpy.mock.calls.length).toBe(1);
+  })
+
+  it('should handle input change correctly', async () => {
+    setup();
+    
   })
 })

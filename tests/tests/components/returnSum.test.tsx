@@ -22,12 +22,13 @@ describe('Test for returnSum component', () => {
   it('should render without exploding, () => {}', () => {
     expect(() => setup()).not.toThrow();
   })
-  
-  it('should render ReturnSum input', () => {
+
+  it('should render ReturnSum inputs', () => {
     setup();
     expect(screen.getAllByRole("spinbutton").length).toBe(2);
+    expect(screen.getByRole("spinbutton", {name: "_a"})).toBeInTheDocument()
+    expect(screen.getByRole("spinbutton", {name: "_b"})).toBeInTheDocument()
   })
-
 
   it('should render the button to call the contract function', () => {
     setup();
@@ -49,5 +50,16 @@ describe('Test for returnSum component', () => {
 
     expect(handleMock).toHaveBeenCalled();
     expect(consoleSpy.mock.calls.length).toBe(1);
+  })
+
+  it('should handle input change correctly', async () => {
+    setup();
+    
+    const _a = screen.getByRole("spinbutton", {name: "_a"})
+    const _b = screen.getByRole("spinbutton", {name: "_b"})
+    await userEvent.type(_a, "150") 
+  await userEvent.type(_b, "150") 
+    expect(screen.getByRole("spinbutton", {name: "_a"})).toHaveValue(150)
+  expect(screen.getByRole("spinbutton", {name: "_b"})).toHaveValue(150)
   })
 })
