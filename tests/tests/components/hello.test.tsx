@@ -23,11 +23,6 @@ describe('Test for hello component', () => {
     expect(() => setup()).not.toThrow();
   })
 
-  it('should render Hello inputs', () => {
-    setup();
-  
-  
-  })
 
   it('should render the button to call the contract function', () => {
     setup();
@@ -51,8 +46,4 @@ describe('Test for hello component', () => {
     expect(consoleSpy.mock.calls.length).toBe(1);
   })
 
-  it('should handle input change correctly', async () => {
-    setup();
-    
-  })
 })

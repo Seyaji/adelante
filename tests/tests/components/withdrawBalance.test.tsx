@@ -22,12 +22,12 @@ describe('Test for withdrawBalance component', () => {
   it('should render without exploding, () => {}', () => {
     expect(() => setup()).not.toThrow();
   })
-
   it('should render WithdrawBalance inputs', () => {
     setup();
     expect(screen.getAllByRole("spinbutton").length).toBe(1);
     expect(screen.getByRole("spinbutton", {name: "amount"})).toBeInTheDocument()
   })
+
 
   it('should render the button to call the contract function', () => {
     setup();
@@ -58,4 +58,5 @@ describe('Test for withdrawBalance component', () => {
     await userEvent.type(amount, "150") 
     expect(screen.getByRole("spinbutton", {name: "amount"})).toHaveValue(150)
   })
+  
 })

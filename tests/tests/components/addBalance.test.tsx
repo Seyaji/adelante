@@ -23,11 +23,6 @@ describe('Test for addBalance component', () => {
     expect(() => setup()).not.toThrow();
   })
 
-  it('should render AddBalance inputs', () => {
-    setup();
-  
-  
-  })
 
   it('should render the button to call the contract function', () => {
     setup();
@@ -51,8 +46,4 @@ describe('Test for addBalance component', () => {
     expect(consoleSpy.mock.calls.length).toBe(1);
   })
 
-  it('should handle input change correctly', async () => {
-    setup();
-    
-  })
 })
