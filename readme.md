@@ -25,13 +25,12 @@ It logs function calls and the return data from them (if any)
 <img width="918" alt="Screenshot 2022-07-12 at 15 44 04" src="https://user-images.githubusercontent.com/67058118/178523396-0a4cb111-79c5-4fe8-8a10-1597d2e7d6f9.png">
 
 Features in development before 1.2.0
-
+- generate test files for the generated files - in development 
+- add more args processing when calling npx
 
 Planned features: 
-- add args processing when calling npx
 - make html,index and app file generation optional (components and functions only formatted for genreral use)
 - user defined themes
-- generate test files for the generated files? 
 
 if you like it, send me a coffee :)
 
@@ -83,7 +82,6 @@ it's reccomended that you
 }
 
 ```
-- run npx adelante and it will output the files to a directory named after your contract name
 
 
 
