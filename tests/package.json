@@ -6,7 +6,7 @@
   "license": "MIT",
   "dependencies": {
     "@babel/preset-react": "^7.18.6",
-    "adelante": "^1.1.5",
+    "adelante": "file:adelante-1.1.5.tgz",
     "jest-environment-jsdom": "^28.1.2"
   },
   "devDependencies": {
