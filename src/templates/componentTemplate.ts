@@ -1,7 +1,6 @@
 import { handleChangeObjectState, useStateObject, handleClickEvent, stateType } from "./utilSnippets.js";
 import { functionImport } from "./imports.js";
-import { capitalize, propsFilter, funcFormat } from "../utils.js";
-import dataTypes from "../templates/dataTypes.js";
+import { capitalize, propsFilter, funcFormat, dataTypes } from "../utils.js";
 import { Input, CompProps } from '../types'
 
 const inputGenerator = (inputs: Input[], state: string) => {
@@ -12,7 +11,7 @@ const inputGenerator = (inputs: Input[], state: string) => {
           .map(({ name, type }) => {
             return ( 
         `<p>${name}</p>
-        <input name="${name}" onChange={handle${capitalize(state)}Change} type="${dataTypes[type]}" placeholder="${name}"/>`);
+        <input aria-label="${name}" name="${name}" onChange={handle${capitalize(state)}Change} type="${dataTypes[type]}" placeholder="${name}"/>`);
           })
           .join("\n          ")}
       </div>
@@ -40,10 +39,9 @@ ${
 `
 ${stateType("state", "[key: string]: string", false ).function}
 `
-  : ""
-}
+  : "" }
 `
-  : ""}
+  : "" }
 
 `}
 ${inline ? "export" : "export default"} function ${capitalize(name)}(${useState || logs ? `props ${useTs ? ": Props" : ""}` : ""}) {
@@ -64,12 +62,12 @@ ${inline ? "export" : "export default"} function ${capitalize(name)}(${useState 
           inputs.length > 0 ?
           `<p>Function inputs:</p>
           <p>(${inputs
-            .map(({ name, type }) => `<span className="text-extra">${type + " " + `${name}`}:</span> ${dataTypes[type]}`)
+            .map(({ name, type }) => `<span className="text-extra">${type + " " + name}:</span> ${dataTypes[type]}`)
             .join(", ")})</p>`
             : ""}
       </div>
           ${inputGenerator(inputs, "state")}
-        <button className="box-button" onClick={${buttonClick}} value="" >${name}</button>
+        <button className="box-button" onClick={${buttonClick}}>${name}</button>
     </div>
   )
 }
