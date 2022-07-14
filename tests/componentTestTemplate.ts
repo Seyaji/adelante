@@ -1,5 +1,19 @@
+import { input } from '@testing-library/user-event/dist/types/utils';
+import { Input, DataTypes } from '../src/types';
 function capitalize(name: string) {
   return name.charAt(0).toUpperCase() + name.slice(1);
+}
+
+const dataTypes: DataTypes = {
+  address: 'string',
+  bool: 'boolean',
+  uint: 'number',
+  uint8: 'number',
+  uint16: 'number',
+  uint32: 'number',
+  uint64: 'number',
+  uint128: 'number',
+  uint256: 'number',
 }
 
 const funcFormat = (name: string) => {
@@ -12,18 +26,34 @@ const funcFormat = (name: string) => {
   })
 }
 
-function inputTests(name: string, inputs: any[]) {
-  const inputExpect = (inputName: string) => `expect(screen.getByRole("input", {name: "${inputName}"})).toBeInTheDocument()`;
+function inputTests(name: string, inputs: Input[]) {
+  const inputChange = (inputName: string) => {
+    return `const ${inputName} = screen.getByRole("spinbutton", {name: "${inputName}"})`
+  }
+  const changeAwait = (inputName: string, inputType: string) => {
+    console.log(inputType)
+    return `await userEvent.type(${inputName}, ${dataTypes[inputType] === "number" ? `"150"` : `"${inputName}"`}) `
+  }
+  const changeExpect = (inputName: string, inputType: string) => {
+    return `expect(screen.getByRole("spinbutton", {name: "${inputName}"})).toHaveValue(${dataTypes[inputType] === "number" ? "150" : `"${inputName}"`})`
+  }
+  const inputInDoc = (inputName: string) => {
+    return `expect(screen.getByRole("spinbutton", {name: "${inputName}"})).toBeInTheDocument()`
+  }
   // ${inputs.map(({ name }) => inputExpect(name)).join("\n")}
-  return `
-  it('should render ${capitalize(name)} input', () => {
-    setup();
-    expect(screen.getAllByRole("spinbutton").length).toBe(${inputs.length});
-  })
-`;
+  return {
+    inDoc: 
+`  ${inputs.map(({ name }) => inputInDoc(name)).join("\n    ")}`,
+    change: 
+`
+    ${inputs.map(({ name }) => inputChange(name)).join("\n    ")}
+    ${inputs.map(({ name, type }) => changeAwait(name, type)).join("\n  ")}
+    ${inputs.map(({ name, type }) => changeExpect(name, type)).join("\n  ")}`,
+    length:
+`  expect(screen.getAllByRole("spinbutton").length).toBe(${inputs.length});`};
 }
 
-export default function ComponentTestTemplate(name: string, inputs: any[], outputs: any[], stateMutability: any) {
+export default function ComponentTestTemplate(name: string, inputs: Input[], outputs: any[], stateMutability: any) {
   return {
     file: `
 import '@testing-library/jest-dom'
@@ -49,7 +79,12 @@ describe('Test for ${name} component', () => {
   it('should render without exploding, () => {}', () => {
     expect(() => setup()).not.toThrow();
   })
-  ${inputs.length > 0 ? inputTests(name, inputs) : ""}
+
+  it('should render ${capitalize(name)} inputs', () => {
+    setup();
+  ${inputs.length > 0 ? inputTests(name, inputs).length : ""}
+  ${inputs.length > 0 ? inputTests(name, inputs).inDoc : ""}
+  })
 
   it('should render the button to call the contract function', () => {
     setup();
@@ -71,6 +106,11 @@ describe('Test for ${name} component', () => {
 
     expect(handleMock).toHaveBeenCalled();
     expect(consoleSpy.mock.calls.length).toBe(1);
+  })
+
+  it('should handle input change correctly', async () => {
+    setup();
+    ${inputs.length > 0 ? inputTests(name, inputs).change : ""}
   })
 })
 `,
