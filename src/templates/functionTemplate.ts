@@ -1,4 +1,4 @@
-import dataTypes from "./dataTypes.js";
+import { dataTypes } from "../utils.js";
 import { Input } from "../types";
 
 // ${dataTypes[type]}
@@ -9,8 +9,7 @@ const returnData = (res: []) => {
 };
 
 
-const stateMut = (stateMutability: string) =>
-  stateMutability === "payable" ? `, { value: ethers.utils.parseEther("0.00")}` : "";
+const stateMut = (stateMutability: string, inputs: Input[]) => stateMutability === "payable" ? `${inputs.length > 0 ? ", " : ""}{ value: ethers.utils.parseEther("0.00")}` : "";
 
 export default function functionTemplate(
   name: string,
@@ -42,9 +41,10 @@ ${inline ? "export" : "export default"} async function ${name}(${inputMap(useTs)
   try {
     const { ethereum } = window;
     const contract = getContract(ethereum);
-    ${returnData(outputs) ? "const data = await" : "await"} contract.${name}(${inputs
+    ${returnData(outputs) ? "const data = await" : "await"} contract.${name}(${
+    inputs.length > 0 ? inputs
     .map(({ name }) => name)
-    .join(", ")}${stateMut(stateMutability)});
+    .join(", ") : ""}${stateMut(stateMutability, inputs)});
     ${returnData(outputs)}
   }
   catch (error) {
