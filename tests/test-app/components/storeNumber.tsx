@@ -44,10 +44,10 @@ export default function StoreNumber(props : Props) {
           
       <div className="box-inputs">
         <p>_number</p>
-        <input name="_number" onChange={handleStateChange} type="number" placeholder="_number"/>
+        <input aria-label="_number" name="_number" onChange={handleStateChange} type="number" placeholder="_number"/>
       </div>
 
-        <button className="box-button" onClick={handleLogsClick} value="" >storeNumber</button>
+        <button className="box-button" onClick={handleLogsClick}>storeNumber</button>
     </div>
   )
 }

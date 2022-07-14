@@ -25,7 +25,7 @@ export default function GetNumber(props : Props) {
         <span className="text-extra"><p>getNumber</p></span>
       </div>
           
-        <button className="box-button" onClick={handleLogsClick} value="" >getNumber</button>
+        <button className="box-button" onClick={handleLogsClick}>getNumber</button>
     </div>
   )
 }

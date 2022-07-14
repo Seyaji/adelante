@@ -44,12 +44,12 @@ export default function ReturnSum(props : Props) {
           
       <div className="box-inputs">
         <p>_a</p>
-        <input name="_a" onChange={handleStateChange} type="number" placeholder="_a"/>
+        <input aria-label="_a" name="_a" onChange={handleStateChange} type="number" placeholder="_a"/>
           <p>_b</p>
-        <input name="_b" onChange={handleStateChange} type="number" placeholder="_b"/>
+        <input aria-label="_b" name="_b" onChange={handleStateChange} type="number" placeholder="_b"/>
       </div>
 
-        <button className="box-button" onClick={handleLogsClick} value="" >returnSum</button>
+        <button className="box-button" onClick={handleLogsClick}>returnSum</button>
     </div>
   )
 }

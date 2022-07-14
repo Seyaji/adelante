@@ -25,7 +25,7 @@ export default function Hello(props : Props) {
         <span className="text-extra"><p>hello</p></span>
       </div>
           
-        <button className="box-button" onClick={handleLogsClick} value="" >hello</button>
+        <button className="box-button" onClick={handleLogsClick}>hello</button>
     </div>
   )
 }

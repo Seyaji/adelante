@@ -25,7 +25,7 @@ export default function GetBalance(props : Props) {
         <span className="text-extra"><p>getBalance</p></span>
       </div>
           
-        <button className="box-button" onClick={handleLogsClick} value="" >getBalance</button>
+        <button className="box-button" onClick={handleLogsClick}>getBalance</button>
     </div>
   )
 }

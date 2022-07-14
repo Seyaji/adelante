@@ -44,10 +44,10 @@ export default function WithdrawBalance(props : Props) {
           
       <div className="box-inputs">
         <p>amount</p>
-        <input name="amount" onChange={handleStateChange} type="number" placeholder="amount"/>
+        <input aria-label="amount" name="amount" onChange={handleStateChange} type="number" placeholder="amount"/>
       </div>
 
-        <button className="box-button" onClick={handleLogsClick} value="" >withdrawBalance</button>
+        <button className="box-button" onClick={handleLogsClick}>withdrawBalance</button>
     </div>
   )
 }
