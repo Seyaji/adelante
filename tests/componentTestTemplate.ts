@@ -31,7 +31,6 @@ function inputTests(name: string, inputs: Input[]) {
     return `const ${inputName} = screen.getByRole("spinbutton", {name: "${inputName}"})`
   }
   const changeAwait = (inputName: string, inputType: string) => {
-    console.log(inputType)
     return `await userEvent.type(${inputName}, ${dataTypes[inputType] === "number" ? `"150"` : `"${inputName}"`}) `
   }
   const changeExpect = (inputName: string, inputType: string) => {
@@ -47,8 +46,8 @@ function inputTests(name: string, inputs: Input[]) {
     change: 
 `
     ${inputs.map(({ name }) => inputChange(name)).join("\n    ")}
-    ${inputs.map(({ name, type }) => changeAwait(name, type)).join("\n  ")}
-    ${inputs.map(({ name, type }) => changeExpect(name, type)).join("\n  ")}`,
+    ${inputs.map(({ name, type }) => changeAwait(name, type)).join("\n    ")}
+    ${inputs.map(({ name, type }) => changeExpect(name, type)).join("\n    ")}`,
     length:
 `  expect(screen.getAllByRole("spinbutton").length).toBe(${inputs.length});`};
 }
@@ -79,12 +78,13 @@ describe('Test for ${name} component', () => {
   it('should render without exploding, () => {}', () => {
     expect(() => setup()).not.toThrow();
   })
-
-  it('should render ${capitalize(name)} inputs', () => {
+${ inputs.length > 0 ? 
+`  it('should render ${capitalize(name)} inputs', () => {
     setup();
   ${inputs.length > 0 ? inputTests(name, inputs).length : ""}
   ${inputs.length > 0 ? inputTests(name, inputs).inDoc : ""}
   })
+` : ""}
 
   it('should render the button to call the contract function', () => {
     setup();
@@ -107,11 +107,13 @@ describe('Test for ${name} component', () => {
     expect(handleMock).toHaveBeenCalled();
     expect(consoleSpy.mock.calls.length).toBe(1);
   })
-
+${ inputs.length > 0 ? 
+  `
   it('should handle input change correctly', async () => {
     setup();
     ${inputs.length > 0 ? inputTests(name, inputs).change : ""}
   })
+  ` : ""}
 })
 `,
   };
