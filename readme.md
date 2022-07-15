@@ -83,8 +83,8 @@ npx adelante
 
 it's reccomended that you
 
-- copy your abi file into the root project directory
-- define the path to your abi file in the adelante .json file (if you didnt do it when you generated the adelante file)
+- copy your contracts .json file into the root project directory
+- define the path to your contract.json file in the adelante.json file (if you didnt do it when you generated the adelante file)
 - it will genrate without a contract address but one should be addded if you want to it to work properly
 
 
@@ -93,7 +93,7 @@ it's reccomended that you
   "useTypescript": true,
   "inlineFunctions": false,
   "inlineComponents": false,
-  "abiPath": "/abi.json", // Path to the abi.file from your smart contract (it must be in your project directory)
+  "contractPath": "/abi.json", // Path to the compiled contract (found in your artifacts folder if using hardhat) from your smart contract (it must be in your project directory)
   "contractAddress": "ENTER_CONTRACT_ADDRESS_HERE",
   "projectPath": "/my-app/src" // Path to app directory, if you want to use create-react-app the path should be to the src file 
 }

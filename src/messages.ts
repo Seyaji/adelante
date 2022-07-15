@@ -72,6 +72,17 @@ export const missingAbi = () => {
   console.log("<:><:><:><:><:><:><:><:><:><:><:>");
 };
 
+export const failedDefaultSettings = () => {
+  console.log("");
+  console.log("<:><:><:><:><:><:><:><:><:><:><:>");
+  console.log("");
+  console.log("");
+  console.log("failed to generate with default settings, please raise an issue with the above error on github");
+  console.log("");
+  console.log("");
+  console.log("<:><:><:><:><:><:><:><:><:><:><:>");
+};
+
 export const unknownFailure = () => {
   console.log("");
   console.log("<:><:><:><:><:><:><:><:><:><:><:>");
