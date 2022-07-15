@@ -12,7 +12,7 @@ import metamask from "./templates/metamask.js";
 
 // Utils
 import { getContract } from "./templates/utilFunctions.js";
-import { generatorGreeting, generatorComplete, inProgress } from "./messages.js";
+import { generatorGreeting, generatorComplete, inProgress, unknownFailure } from "./messages.js";
 import { ABI } from "./types";
 
 // Generators
@@ -56,13 +56,17 @@ export default function generator(abi: any, contractName: string, adelante: any)
     ])
   );
 
-  genFunctions(functionMap, functions, projectPath, inlineFunctions, useTypescript);
+  try { 
+    genFunctions(functionMap, functions, projectPath, inlineFunctions, useTypescript);
+    genComponents(componentMap, functions, projectPath, inlineFunctions, inlineComponents, useTypescript);
+    genPages(pages, projectPath);
+    utilGen(utils, projectPath, useTypescript);
 
-  genComponents(componentMap, functions, projectPath, inlineFunctions, inlineComponents, useTypescript);
+    generatorComplete();
+  } catch (error) {
 
-  genPages(pages, projectPath);
+    console.log(error);
+    unknownFailure();
+  }
 
-  utilGen(utils, projectPath, useTypescript);
-
-  generatorComplete();
 }
