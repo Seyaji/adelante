@@ -10,40 +10,51 @@ import { missingAdelante, missingAbi, unknownFailure } from "./messages.js";
 (async function fileExists() {
   const args = process.argv.slice(2);
 
-  if (args.filter((arg) => arg.match(/^--init$/)).length === 1) {
+  const getAdelante = async () => {
+    const adelante = await require(`${appRoot}/adelante.json`);
+    return adelante;
+  };
+
+  const getContract = async (path: string) => {
+    const abi = await require(`${appRoot + path}`);
+    return abi;
+  };
+
+  if (args.includes("--init")) {
     initialise();
   }
 
   if (args.length === 0) {
-    try {
-      const adelante = await require(`${appRoot}/adelante.json`);
-      const { abiPath, projectPath } = adelante;
-
-      try {
-        const { abi, contractName } = await require(`${appRoot + abiPath}`);
-
-        try {
-          generator(abi, contractName, adelante);
-          fs.copyFile(`${appRoot + abiPath}`, `./${projectPath}/${contractName}.json`, (error) => {
-            if (error) {
-              console.log("Failed to copy abi.json");
-            }
-          });
-        } catch (error) {
-          console.log(error);
-          unknownFailure();
-        } finally {}
-
-      } catch (error) {
-        console.log(error)
-        missingAbi()
-      }
-      finally {}
-      
-    } catch (error) {
-      console.log(error)
-      console.log(`${appRoot}`)
+    const adelante = await getAdelante().catch((error: any) => {
+      console.log(error);
       missingAdelante();
+      process.exit(1);
+    });
+
+    const { contractPath, projectPath } = await adelante;
+
+    const contract = await getContract(contractPath).catch((error: any) => {
+      console.log(error);
+      missingAbi();
+      process.exit(1);
+    });
+    
+    const { abi, contractName } = await contract;
+
+    if (adelante && contract) {
+      try {
+        generator(abi, contractName, adelante);
+        fs.copyFile(`${appRoot + contractPath}`, `./${projectPath}/${contractName}.json`, (error) => {
+          if (error) {
+            console.log("Failed to copy abi.json");
+          }
+        });
+      } catch (error) {
+        console.log(error);
+        unknownFailure();
+        process.exit(1);
+      }
+
     }
   }
 })();
