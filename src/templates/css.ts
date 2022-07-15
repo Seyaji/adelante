@@ -20,6 +20,11 @@ html {
   scroll-behavior: smooth;
 }
 
+body {
+  margin: 0;
+  padding: 0;
+}
+
 ::-webkit-scrollbar {
   width: 12px;
 }
@@ -126,6 +131,10 @@ button {
   justify-content: center;
   width: 100%;
   border-top: 2px solid var(--heading-color);
+}
+
+#footer-logo {
+  width: 800px;
 }
 
 .connection-details {
