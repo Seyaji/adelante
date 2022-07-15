@@ -171,8 +171,8 @@ import React from 'react';
 export default function Footer() {
   return (
     <div className="footer">
-      <p id="footer-logo">created by Seyaji</p>
-      <p>
+      <p>created by Seyaji</p>
+      <p id="logo-text">
         ░█████╗░██████╗░███████╗██╗░░░░░░█████╗░███╗░░██╗████████╗███████╗
         ██╔══██╗██╔══██╗██╔════╝██║░░░░░██╔══██╗████╗░██║╚══██╔══╝██╔════╝
         ███████║██║░░██║█████╗░░██║░░░░░███████║██╔██╗██║░░░██║░░░█████╗░░

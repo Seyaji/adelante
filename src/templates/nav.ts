@@ -17,7 +17,7 @@ export default function Nav(props${useTs ? ": Props" : ""}){
   return (
     <nav>
       <button onClick={handleTheme} >change theme</button>
-      <p id="nav-text">
+      <p id="logo-text">
       ░█████╗░██████╗░███████╗██╗░░░░░░█████╗░███╗░░██╗████████╗███████╗
       ██╔══██╗██╔══██╗██╔════╝██║░░░░░██╔══██╗████╗░██║╚══██╔══╝██╔════╝
       ███████║██║░░██║█████╗░░██║░░░░░███████║██╔██╗██║░░░██║░░░█████╗░░
