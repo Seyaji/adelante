@@ -1,8 +1,8 @@
 import appRoot from "app-root-path";
-import fs from "fs";
+import { writeFile } from "fs/promises";
 import inquirer from "inquirer";
 import { adelante, defaultSettings } from "./templates/adelante.js";
-import { setupComplete, initGreeting } from "./messages.js";
+import { setupComplete, initGreeting, failedDefaultSettings } from "./messages.js";
 
 export default async function initialise() {
   initGreeting();
@@ -20,14 +20,22 @@ export default async function initialise() {
     })
     .then((choices) => {
       if (choices["create"] === "No") {
-        fs.writeFile(`${appRoot}/adelante.json`, defaultSettings(), (error) => {
-          if (error) throw error;
-        });
-        exit = true;
+        try {
+          const controller = new AbortController();
+          const { signal } = controller;
+          writeFile(`${appRoot}/adelante.json`, defaultSettings(), { signal });
+          exit = true;
+        } catch (error) {
+          console.log(error);
+          failedDefaultSettings();
+          process.exit(1);
+        }
       }
     });
 
-  if (exit) {return};
+  if (exit) {
+    return;
+  }
 
   await inquirer
     .prompt({
@@ -37,7 +45,7 @@ export default async function initialise() {
       choices: ["TypeScript", "JavaScript"],
     })
     .then((choices) => {
-      options.language = ( choices["language"] === "TypeScript" ? true : false )
+      options.language = choices["language"] === "TypeScript" ? true : false;
     });
 
   await inquirer
@@ -48,7 +56,7 @@ export default async function initialise() {
       choices: ["Yes", "No"],
     })
     .then((choices) => {
-      options.functions = ( choices["functions"] === "Yes" ?  false : true)
+      options.functions = choices["functions"] === "Yes" ? false : true;
     });
 
   await inquirer
@@ -59,7 +67,7 @@ export default async function initialise() {
       choices: ["Yes", "No"],
     })
     .then((choices) => {
-      options.components = ( choices["components"] === "Yes" ?  false : true )
+      options.components = choices["components"] === "Yes" ? false : true;
     });
 
   await inquirer
@@ -69,16 +77,16 @@ export default async function initialise() {
       message: "Enter path to ABI file:",
     })
     .then((choices) => {
-      options.abiPath = choices["abiPath"]
+      options.abiPath = choices["abiPath"];
     });
-    await inquirer
+  await inquirer
     .prompt({
       type: "input",
       name: "projectPath",
       message: "Enter path to project directory",
     })
     .then((choices) => {
-      options.projectPath = choices["projectPath"]
+      options.projectPath = choices["projectPath"];
     });
 
   await inquirer
@@ -88,18 +96,28 @@ export default async function initialise() {
       message: "Paste your contract address (leave blank if you want to add it later):",
     })
     .then((choices) => {
-      options.contract = choices["contract"]
+      options.contract = choices["contract"];
     });
 
-  fs.writeFile(`${appRoot}/adelante.json`, adelante(
-    options.language,
-    options.functions,
-    options.components,
-    options.abiPath,
-    options.contract,
-    options.projectPath), (error) => {
-    if (error) throw error;
-  });
+  try {
+    const controller = new AbortController();
+    const { signal } = controller;
+    await writeFile(
+      `${appRoot}/adelante.json`,
+      adelante(
+        options.language,
+        options.functions,
+        options.components,
+        options.abiPath,
+        options.contract,
+        options.projectPath
+      ),
+      { signal }
+    );
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
 
   setupComplete();
 }
