@@ -7,7 +7,7 @@ This is a code generation tool to aid in the rapid prototyping of smart contract
 
 See it in action at: https://adelante-test-app.vercel.app/
 
-As of version 1.1.6 you can:
+As of version 1.1.7 you can:
 - generate inline functions or extract them to their own files
 - generate inline components or extract them to their own files
 - use a combination of the two, e.g inline functions and extracted components
