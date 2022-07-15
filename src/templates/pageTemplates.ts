@@ -111,7 +111,7 @@ export const details = (useTs: boolean, props: CompProps[]) => {
     name: "Details",
     extension: `${useTs ? ".tsx" : ".jsx"}`,
     file:`
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 ${ useTs ?
 `type Props = {
   masterLogs: string[];
@@ -119,7 +119,6 @@ ${ useTs ?
 export default function Details(props${useTs ? ": Props" : ""}) {
   const { masterLogs } = props
   const { ethereum } = window;
-  const [state, setState ] = useState({})
 
   const logs = (key${ useTs ? ": string" : ""}, value${ useTs ? ": string" : ""}, index${ useTs ? ": number" : ""}) => {
     return (
