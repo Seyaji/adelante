@@ -2,7 +2,6 @@
 import componentTemplate from "./templates/componentTemplate.js";
 import functionTemplate from "./templates/functionTemplate.js";
 import { indexFile, appFile, typeDeclaration, indexHtml, footer, details } from "./templates/pageTemplates.js";
-import { inlineComponentImport, inlineFunctionImport } from "./templates/imports.js";
 import { handleChangeArray } from "./templates/utilSnippets.js";
 
 // Components
@@ -12,11 +11,9 @@ import css from "./templates/css.js";
 import metamask from "./templates/metamask.js";
 
 // Utils
-import { useTs } from "./utils.js";
 import { getContract } from "./templates/utilFunctions.js";
 import { generatorGreeting, generatorComplete, inProgress } from "./messages.js";
 import { ABI } from "./types";
-import fs from "fs";
 
 // Generators
 import genFunctions from "./generators/genFunctions.js";
