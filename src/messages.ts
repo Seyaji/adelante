@@ -16,7 +16,7 @@ export const initGreeting = () => {
   console.log("React code generation for Solidity!");
   console.log("");
   console.log("        Created by Seyaji  ");
-  console.log("                           v1.1.6");
+  console.log("                           v1.1.7");
   console.log("<:><:><:><:><:><:><:><:><:><:><:>");
   console.log("");
   console.log("");
@@ -34,7 +34,7 @@ export const generatorGreeting = () => {
 `
   );
   console.log("        Created by Seyaji  ");
-  console.log("                           v1.1.6");
+  console.log("                           v1.1.7");
   console.log("<:><:><:><:><:><:><:><:><:><:><:>");
 };
 

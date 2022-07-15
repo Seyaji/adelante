@@ -21,8 +21,8 @@ html {
 }
 
 body {
-  margin: 0;
-  padding: 0;
+  margin: 0px;
+  padding: 0px;
 }
 
 ::-webkit-scrollbar {
@@ -89,7 +89,7 @@ nav li:hover {
   cursor: pointer;
 }
 
-#nav-text {
+#logo-text {
   width: 600px;
   font-size: .7em;
   text-align: center;
@@ -129,12 +129,9 @@ button {
   text-align: center;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   width: 100%;
   border-top: 2px solid var(--heading-color);
-}
-
-#footer-logo {
-  width: 800px;
 }
 
 .connection-details {
