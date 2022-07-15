@@ -11,7 +11,7 @@ export function adelante(
   "useTypescript": ${useTs},
   "inlineFunctions": ${inlineFunc},
   "inlineComponents": ${inlineComp},
-  "abiPath": "${abiPath}",
+  "contractPath": "${abiPath}",
   "contractAddress": "${contract}",
   "projectPath": "${projectPath}"
 }
@@ -23,7 +23,7 @@ export function defaultSettings(): string {
   "useTypescript": true,
   "inlineFunctions": false,
   "inlineComponents": false,
-  "abiPath": "/abi.json",
+  "contractPath": "/abi.json",
   "contractAddress": "ENTER_CONTRACT_ADDRESS_HERE",
   "projectPath": "ENTER_PROJECT_DIRECTORY_HERE"
 }
