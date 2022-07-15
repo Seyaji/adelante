@@ -21,25 +21,26 @@ import { missingAdelante, missingAbi, unknownFailure } from "./messages.js";
   };
 
   if (args.includes("--init")) {
-    initialise();
+    await initialise();
   }
 
+  const adelante = await getAdelante().catch((error: any) => {
+    console.log(error);
+    missingAdelante();
+    process.exit(1);
+  });
+
+  const { contractPath, projectPath } = await adelante;
+
+  const contract = await getContract(contractPath).catch((error: any) => {
+    console.log(error);
+    missingAbi();
+    process.exit(1);
+  });
+  
+  const { abi, contractName } = await contract;
+
   if (args.length === 0) {
-    const adelante = await getAdelante().catch((error: any) => {
-      console.log(error);
-      missingAdelante();
-      process.exit(1);
-    });
-
-    const { contractPath, projectPath } = await adelante;
-
-    const contract = await getContract(contractPath).catch((error: any) => {
-      console.log(error);
-      missingAbi();
-      process.exit(1);
-    });
-    
-    const { abi, contractName } = await contract;
 
     if (adelante && contract) {
       try {
