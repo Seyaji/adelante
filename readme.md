@@ -28,16 +28,32 @@ It logs function calls and the return data from them (if any)
 
 Features in development before 1.2.0
 - generate test files for the generated files - in development 
-- add more args processing when calling npx
+- add more args processing when calling npx (generate components only, generate functions only, etc)
 
 Planned features: 
-- make html,index and app file generation optional (components and functions only formatted for genreral use)
+- make html,index and app file generation optional (components and functions only formatted for general use)
 - user defined themes
 
 if you like it, send me a coffee :)
 
 Eth address: 0x4A079D4417b522762C72dB9643234FCC4683a40E
 ## how can I make it work??
+
+Make sure that you have a package.json file before you install adelante.
+You can make one with the following command:
+
+```
+npm init
+```
+
+or
+```
+yarn init
+```
+
+
+Then install adelante with the following command:
+
 
 run:
 
@@ -71,9 +87,8 @@ it's reccomended that you
 - define the path to your abi file in the adelante .json file (if you didnt do it when you generated the adelante file)
 - it will genrate without a contract address but one should be addded if you want to it to work properly
 
+
 ```json
-
-
 {
   "useTypescript": true,
   "inlineFunctions": false,
