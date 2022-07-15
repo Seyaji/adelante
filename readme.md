@@ -185,6 +185,7 @@ export default function PurchaseUnit(props : Props) {
 ```
 ### Populates the appfile with the components
 It will create the imports and pass props down to the child components for the masterLogsState
+The example below is from the hosted priview at: https://adelante-test-app.vercel.app/
 
 ```jsx
 import React, { useState } from 'react';
