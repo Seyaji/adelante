@@ -93,7 +93,7 @@ it's reccomended that you
   "useTypescript": true,
   "inlineFunctions": false,
   "inlineComponents": false,
-  "contractPath": "/abi.json", // Path to the compiled contract (found in your artifacts folder if using hardhat) from your smart contract (it must be in your project directory)
+  "contractPath": "/abi.json", // Path to the compiled contract (found in your artifacts folder if using hardhat, it must be in your project directory)
   "contractAddress": "ENTER_CONTRACT_ADDRESS_HERE",
   "projectPath": "/my-app/src" // Path to app directory, if you want to use create-react-app the path should be to the src file 
 }
