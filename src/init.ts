@@ -16,7 +16,7 @@ export default async function initialise() {
       type: "list",
       name: "create",
       message: "Would you like to configure an adelante.json?",
-      choices: ["Yes", "No"],
+      choices: ["Yes", "No (this will make one with default settings)"],
     })
     .then((choices) => {
       if (choices["create"] === "No") {
