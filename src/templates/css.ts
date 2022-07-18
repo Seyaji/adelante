@@ -156,10 +156,20 @@ button {
 
 .text-extra {
   color: var(--extra-color);
+  margin: 0;
 }
 
 .log-text {
   color: var(--font-color);
+}
+
+.log-func {
+  color: var(--extra-color);
+  margin: 0;
+}
+
+.log-func:hover {
+  background-color: var(--secondary-color);
 }
 
 .function-box {
