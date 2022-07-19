@@ -3,22 +3,22 @@
 ## what is adelante?
 https://www.npmjs.com/package/adelante
 
-This is a code generation tool to aid in the rapid prototyping of smart contracts built with solidity.
+This is a code generation tool to aid in the rapid prototyping of Smart Contracts built with Solidity.
 
 See it in action at: https://adelante-test-app.vercel.app/
 
 As of version 1.1.7 you can:
-- generate inline functions or extract them to their own files
-- generate inline components or extract them to their own files
-- use a combination of the two, e.g inline functions and extracted components
-- generate javascript files
-- define the output path in the adelante.json
+- Generate inline functions or extract them to their own files
+- Generate inline components or extract them to their own files
+- Use a combination of the two, e.g inline functions and extracted components
+- Generate javascript files
+- Define the output path in the adelante.json
 
 It automatically:
-- generates metamask connect fucntionality and component
-- generates a css file
-- generates a html file
-- generates an App.*sx file populated with the generated components
+- Generates metamask connect fucntionality and component
+- Generates a css file
+- Generates a html file
+- Generates an App.*sx file populated with the generated components
 
 Other functionality:
 
@@ -28,17 +28,21 @@ It logs function calls and the return data from them (if any)
  
 
 Features in development before 1.2.0
-- generate test files for the generated files - in development 
-- make html, index and app file generation optional (components and functions only, formatted for general use)
+- Generate test files for the generated files - in development 
+- Make html, index and app file generation optional (components and functions only, formatted for general use)
 
 Planned features: 
-- user defined themes
+- User defined themes
 
-if you like it, send me a coffee :)
+If you like it, send me a coffee :)
+
+<br />
 
 Eth address: 0x4A079D4417b522762C72dB9643234FCC4683a40E
+
 <br />
 <br />
+
 ## how can I make it work??
 
 Make sure that you have a package.json file before you install adelante.
@@ -118,9 +122,9 @@ npx adelante
 
 ### it's reccomended that you
 
-- copy your contracts .json file into the root project directory
-- define the path to your contract.json file in the adelante.json file (if you didnt do it when you generated the adelante file)
-- it will genrate without a contract address but one should be addded if you want to it to work properly
+- Copy your contracts .json file into the root project directory
+- Define the path to your contract.json file in the adelante.json file (if you didnt do it when you generated the adelante file)
+- It will genrate without a contract address but one should be addded if you want to it to work properly
 
 
 ```json
@@ -148,10 +152,10 @@ npx adelante
 
 For each callable function on the Smart Contract a function will be generated. Most of these functions will work straight away, payable functions will need to be customised to work correctly.
 
-- with payable functions an ethers.utils.parseEther() is generated in the function file but an amount is not provided
+- With payable functions an ethers.utils.parseEther() is generated in the function file but an amount is not provided
 
-how come? 
-payable functions dont require the ether amount to de defined as an argument in the function inputs (these are recorded in the contract abi which is the source for the code generation)
+### How come? 
+Payable functions dont require the ether amount to de defined as an argument in the function inputs (these are recorded in the contract abi which is the source for the code generation)
 
 
 The functions will return data if it is expected, otherwise a return statement will not generate.
