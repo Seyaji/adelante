@@ -147,8 +147,6 @@ npx adelante
 
 ### Generating functions to interact with the Smart Contract
 
-<br />
-<br />
 
 For each callable function on the Smart Contract a function will be generated. Most of these functions will work straight away, payable functions will need to be customised to work correctly.
 
@@ -246,7 +244,7 @@ export default function PurchaseUnit(props : Props) {
 }
 
 ```
-### Populates the appfile with the components
+### Populate the appfile with the components
 It will create the imports and pass props down to the child components for the masterLogsState
 The example below is from the hosted priview at: https://adelante-test-app.vercel.app/
 
