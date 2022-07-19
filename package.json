@@ -32,7 +32,7 @@
   "scripts": {
     "start": "ts-node ./src/index.ts",
     "startjs": "node ./dist/index.js",
-    "build": "tsc && ts-node ./build.ts && npm pack"
+    "build": "tsc && npm pack"
   },
   "bin": {
     "adelante": "./dist/index.js"
