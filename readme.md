@@ -28,15 +28,16 @@ It logs function calls and the return data from them (if any)
 
 Features in development before 1.2.0
 - generate test files for the generated files - in development 
-- add more args processing when calling npx (generate components only, generate functions only, etc)
+- make html, index and app file generation optional (components and functions only, formatted for general use)
 
 Planned features: 
-- make html,index and app file generation optional (components and functions only formatted for general use)
 - user defined themes
 
 if you like it, send me a coffee :)
 
 Eth address: 0x4A079D4417b522762C72dB9643234FCC4683a40E
+<br />
+<br />
 ## how can I make it work??
 
 Make sure that you have a package.json file before you install adelante.
@@ -51,37 +52,68 @@ or
 yarn init
 ```
 
+<br />
+<br />
 
-Then install adelante with the following command:
+### To install adelante and start generating follow the instructions below:
+<br />
 
+You will be asked some questions to configure adelante.json when you use the Setup command.
 
-run:
+If you want to use a default configuration and edit the json manually pick 'No' for the first question
 
-```
-npm install adelante
-```
+<br />
+<br />
 
-or
+For yarn users:
+
+<br />
+
+1. Install using:
 
 ```
 yarn add adelante
 ```
 
-then run:
+2. Setup using:
+
+```
+yarn adelante --init
+```
+
+3. Run using:
+
+```
+yarn adelante
+```
+<br />
+<br />
+For npm users:
+
+<br />
+
+1. Install using:
+
+```
+npm install adelante
+```
+
+2. Setup using:
 
 ```
 npx adelante --init
 ```
-you will be asked some questions to configure adelante.json
-if you want to use a default configuration and edit the json manually pick 'No' for the first question
 
-then to generate the files use:
+2. Run using:
+
 ```
-npx adelante 
+npx adelante
 ```
 
+<br />
+<br />
 
-it's reccomended that you
+### it's reccomended that you
 
 - copy your contracts .json file into the root project directory
 - define the path to your contract.json file in the adelante.json file (if you didnt do it when you generated the adelante file)
@@ -102,18 +134,27 @@ it's reccomended that you
 
 
 
-## Currently it:
+## Generating files
 
-### Creates functions to interact with smart contract functions
+<br />
 
-The functions will return data if it is expected, otherwise it will not generate a return statement.
+### Generating functions to interact with the Smart Contract
 
-Things to note: 
+<br />
+<br />
+
+For each callable function on the Smart Contract a function will be generated. Most of these functions will work straight away, payable functions will need to be customised to work correctly.
 
 - with payable functions an ethers.utils.parseEther() is generated in the function file but an amount is not provided
 
 how come? 
 payable functions dont require the ether amount to de defined as an argument in the function inputs (these are recorded in the contract abi which is the source for the code generation)
+
+
+The functions will return data if it is expected, otherwise a return statement will not generate.
+
+<br />
+<br />
 
 ```js
 import { getContract } from '../utils/utils'
@@ -138,7 +179,7 @@ export default async function getRemainingUnits() {
   }
 }
 ```
-### Creates React components for the functions
+### Generating React components to call the functions
 These components have inputs and a button to call the smart contract function along with state and a handleChange function
 
 <img width="323" alt="Screenshot 2022-07-12 at 16 10 54" src="https://user-images.githubusercontent.com/67058118/178523907-2d513920-4ef4-4d65-b079-8677e41d9ce4.png">
@@ -233,18 +274,18 @@ export default function App() {
   }
   return (
     <div className="App">
-    <Nav handleTheme={handleTheme} />
-    <Details masterLogs={masterLogs} />
-      <div className="components">
-        <ReturnSum handleMasterLogsChange={handleMasterLogsChange} />
-        <StoreNumber handleMasterLogsChange={handleMasterLogsChange} />
-        <WithdrawBalance handleMasterLogsChange={handleMasterLogsChange} />
-        <AddBalance handleMasterLogsChange={handleMasterLogsChange} />
-        <GetBalance handleMasterLogsChange={handleMasterLogsChange} />
-        <GetNumber handleMasterLogsChange={handleMasterLogsChange} />
-        <Hello handleMasterLogsChange={handleMasterLogsChange} />
-      </div>
-    <Footer />
+      <Nav handleTheme={handleTheme} />
+      <Details masterLogs={masterLogs} />
+        <div className="components">
+          <ReturnSum handleMasterLogsChange={handleMasterLogsChange} />
+          <StoreNumber handleMasterLogsChange={handleMasterLogsChange} />
+          <WithdrawBalance handleMasterLogsChange={handleMasterLogsChange} />
+          <AddBalance handleMasterLogsChange={handleMasterLogsChange} />
+          <GetBalance handleMasterLogsChange={handleMasterLogsChange} />
+          <GetNumber handleMasterLogsChange={handleMasterLogsChange} />
+          <Hello handleMasterLogsChange={handleMasterLogsChange} />
+        </div>
+      <Footer />
     </div>
   )
 }
