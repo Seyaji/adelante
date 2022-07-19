@@ -87,8 +87,10 @@ yarn adelante --init
 ```
 yarn adelante
 ```
+
 <br />
 <br />
+
 For npm users:
 
 <br />
