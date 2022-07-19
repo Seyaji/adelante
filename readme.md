@@ -3,40 +3,46 @@
 ## what is adelante?
 https://www.npmjs.com/package/adelante
 
-This is a code generation tool to aid in the rapid prototyping of smart contracts built with solidity.
+This is a code generation tool to aid in the rapid prototyping of Smart Contracts built with Solidity.
 
 See it in action at: https://adelante-test-app.vercel.app/
 
 As of version 1.1.7 you can:
-- generate inline functions or extract them to their own files
-- generate inline components or extract them to their own files
-- use a combination of the two, e.g inline functions and extracted components
-- generate javascript files
-- define the output path in the adelante.json
+- Generate inline functions or extract them to their own files
+- Generate inline components or extract them to their own files
+- Use a combination of the two, e.g inline functions and extracted components
+- Generate javascript files
+- Define the output path in the adelante.json
 
 It automatically:
-- generates metamask connect fucntionality and component
-- generates a css file
-- generates a html file
-- generates an App.*sx file populated with the generated components
+- Generates metamask connect fucntionality and component
+- Generates a css file
+- Generates a html file
+- Generates an App.*sx file populated with the generated components
 
 Other functionality:
 
 It logs function calls and the return data from them (if any)
 
-<img width="918" alt="Screenshot 2022-07-12 at 15 44 04" src="https://user-images.githubusercontent.com/67058118/178523396-0a4cb111-79c5-4fe8-8a10-1597d2e7d6f9.png">
+<img width="784" alt="Screenshot 2022-07-18 at 11 37 47" src="https://user-images.githubusercontent.com/67058118/179721242-8eec0615-1b4b-40ee-9e31-101ff4e19f3c.png">
+ 
 
 Features in development before 1.2.0
-- generate test files for the generated files - in development 
-- add more args processing when calling npx (generate components only, generate functions only, etc)
+- Generate test files for the generated files - in development 
+- Make html, index and app file generation optional (components and functions only, formatted for general use)
 
 Planned features: 
-- make html,index and app file generation optional (components and functions only formatted for general use)
-- user defined themes
+- User defined themes
 
-if you like it, send me a coffee :)
+If you like it, send me a coffee :)
+
+<br />
 
 Eth address: 0x4A079D4417b522762C72dB9643234FCC4683a40E
+
+<br />
+<br />
+
 ## how can I make it work??
 
 Make sure that you have a package.json file before you install adelante.
@@ -51,41 +57,74 @@ or
 yarn init
 ```
 
+<br />
+<br />
 
-Then install adelante with the following command:
+### To install adelante and start generating follow the instructions below:
+<br />
 
+You will be asked some questions to configure adelante.json when you use the Setup command.
 
-run:
+If you want to use a default configuration and edit the json manually pick 'No' for the first question
 
-```
-npm install adelante
-```
+<br />
+<br />
 
-or
+For yarn users:
+
+<br />
+
+1. Install using:
 
 ```
 yarn add adelante
 ```
 
-then run:
+2. Setup using:
+
+```
+yarn adelante --init
+```
+
+3. Run using:
+
+```
+yarn adelante
+```
+
+<br />
+<br />
+
+For npm users:
+
+<br />
+
+1. Install using:
+
+```
+npm install adelante
+```
+
+2. Setup using:
 
 ```
 npx adelante --init
 ```
-you will be asked some questions to configure adelante.json
-if you want to use a default configuration and edit the json manually pick 'No' for the first question
 
-then to generate the files use:
+2. Run using:
+
 ```
-npx adelante 
+npx adelante
 ```
 
+<br />
+<br />
 
-it's reccomended that you
+### it's reccomended that you
 
-- copy your contracts .json file into the root project directory
-- define the path to your contract.json file in the adelante.json file (if you didnt do it when you generated the adelante file)
-- it will genrate without a contract address but one should be addded if you want to it to work properly
+- Copy your contracts .json file into the root project directory
+- Define the path to your contract.json file in the adelante.json file (if you didnt do it when you generated the adelante file)
+- It will genrate without a contract address but one should be addded if you want to it to work properly
 
 
 ```json
@@ -102,18 +141,27 @@ it's reccomended that you
 
 
 
-## Currently it:
+## Generating files
 
-### Creates functions to interact with smart contract functions
+<br />
 
-The functions will return data if it is expected, otherwise it will not generate a return statement.
+### Generating functions to interact with the Smart Contract
 
-Things to note: 
+<br />
+<br />
 
-- with payable functions an ethers.utils.parseEther() is generated in the function file but an amount is not provided
+For each callable function on the Smart Contract a function will be generated. Most of these functions will work straight away, payable functions will need to be customised to work correctly.
 
-how come? 
-payable functions dont require the ether amount to de defined as an argument in the function inputs (these are recorded in the contract abi which is the source for the code generation)
+- With payable functions an ethers.utils.parseEther() is generated in the function file but an amount is not provided
+
+### How come? 
+Payable functions dont require the ether amount to de defined as an argument in the function inputs (these are recorded in the contract abi which is the source for the code generation)
+
+
+The functions will return data if it is expected, otherwise a return statement will not generate.
+
+<br />
+<br />
 
 ```js
 import { getContract } from '../utils/utils'
@@ -138,7 +186,7 @@ export default async function getRemainingUnits() {
   }
 }
 ```
-### Creates React components for the functions
+### Generating React components to call the functions
 These components have inputs and a button to call the smart contract function along with state and a handleChange function
 
 <img width="323" alt="Screenshot 2022-07-12 at 16 10 54" src="https://user-images.githubusercontent.com/67058118/178523907-2d513920-4ef4-4d65-b079-8677e41d9ce4.png">
@@ -233,18 +281,18 @@ export default function App() {
   }
   return (
     <div className="App">
-    <Nav handleTheme={handleTheme} />
-    <Details masterLogs={masterLogs} />
-      <div className="components">
-        <ReturnSum handleMasterLogsChange={handleMasterLogsChange} />
-        <StoreNumber handleMasterLogsChange={handleMasterLogsChange} />
-        <WithdrawBalance handleMasterLogsChange={handleMasterLogsChange} />
-        <AddBalance handleMasterLogsChange={handleMasterLogsChange} />
-        <GetBalance handleMasterLogsChange={handleMasterLogsChange} />
-        <GetNumber handleMasterLogsChange={handleMasterLogsChange} />
-        <Hello handleMasterLogsChange={handleMasterLogsChange} />
-      </div>
-    <Footer />
+      <Nav handleTheme={handleTheme} />
+      <Details masterLogs={masterLogs} />
+        <div className="components">
+          <ReturnSum handleMasterLogsChange={handleMasterLogsChange} />
+          <StoreNumber handleMasterLogsChange={handleMasterLogsChange} />
+          <WithdrawBalance handleMasterLogsChange={handleMasterLogsChange} />
+          <AddBalance handleMasterLogsChange={handleMasterLogsChange} />
+          <GetBalance handleMasterLogsChange={handleMasterLogsChange} />
+          <GetNumber handleMasterLogsChange={handleMasterLogsChange} />
+          <Hello handleMasterLogsChange={handleMasterLogsChange} />
+        </div>
+      <Footer />
     </div>
   )
 }
