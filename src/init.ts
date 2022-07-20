@@ -78,7 +78,7 @@ export default async function initialise() {
       choices: ["Yes", "No"],
     })
     .then((choices) => {
-      options.components = choices["tests"] === "Yes" ? true : false;
+      options.tests = choices["tests"] === "Yes" ? true : false;
     });
 
   await inquirer
