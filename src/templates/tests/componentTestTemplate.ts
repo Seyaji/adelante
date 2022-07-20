@@ -52,7 +52,7 @@ function inputTests(name: string, inputs: Input[]) {
 `  expect(screen.getAllByRole("spinbutton").length).toBe(${inputs.length});`};
 }
 
-export default function ComponentTestTemplate(name: string, inputs: Input[], outputs: any[], stateMutability: any, inlineComponents: boolean) {
+export default function ComponentTestTemplate(name: string, inputs: Input[], outputs: any[], stateMutability: any, inlineComponents: boolean, projectPath: string) {
   return {
     file: `
 import '@testing-library/jest-dom'
@@ -60,7 +60,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-${componentImport(name, "../../components/", inlineComponents)}
+${componentImport(name, `../../..${projectPath}components/`, inlineComponents)}
 
 type Props = {
   handleMasterLogsChange: (data: any) => void;

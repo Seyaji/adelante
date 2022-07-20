@@ -5,7 +5,8 @@ export function adelante(
   generateTests: boolean,
   abiPath: string,
   contract: string,
-  projectPath: string
+  projectPath: string,
+  testDirectory: string,
 ) {
   return `
 {
@@ -16,6 +17,7 @@ export function adelante(
   "contractPath": "${abiPath}",
   "contractAddress": "${contract}",
   "projectPath": "${projectPath}"
+  "testDirectory": "${testDirectory}",
 }
 `;
 }
@@ -28,7 +30,8 @@ export function defaultSettings(): string {
   "generateTests": false,
   "contractPath": "/abi.json",
   "contractAddress": "ENTER_CONTRACT_ADDRESS_HERE",
-  "projectPath": "ENTER_PROJECT_DIRECTORY_HERE"
+  "projectPath": "ENTER_PROJECT_DIRECTORY_HERE",
+  "testDirectory": /tests-output/,
 }
 
 `;

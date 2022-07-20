@@ -29,7 +29,8 @@ export default function generator(abi: ABI[], contractName: string, adelante: an
     contractAddress,
     useTypescript,
     projectPath,
-    generateTests 
+    generateTests,
+    testDirectory,
   } = adelante;
   generatorGreeting();
   inProgress();
@@ -70,7 +71,7 @@ export default function generator(abi: ABI[], contractName: string, adelante: an
     utilGen(utils, projectPath, useTypescript);
 
     if (generateTests) {
-      testGenerator(functions, projectPath, useTypescript, inlineFunctions, inlineComponents);
+      testGenerator(functions, projectPath, testDirectory, useTypescript, inlineFunctions, inlineComponents);
     }
 
     generatorComplete();
