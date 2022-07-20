@@ -1,3 +1,4 @@
+import appRoot from "app-root-path";
 import { Input, DataTypes } from '../../types';
 import { capitalize } from '../../utils.js'
 import { componentImport } from '../utils/imports.js';
@@ -60,7 +61,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-${componentImport(name, `../../..${projectPath}components/`, inlineComponents)}
+${componentImport(name, `${appRoot}${projectPath}/components/`, inlineComponents)}
 
 type Props = {
   handleMasterLogsChange: (data: any) => void;
