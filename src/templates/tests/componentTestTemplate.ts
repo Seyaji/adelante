@@ -1,6 +1,6 @@
 import { Input, DataTypes } from '../../types';
-import { capitalize } from '../../utils'
-import { componentImport } from '../utils/imports';
+import { capitalize } from '../../utils.js'
+import { componentImport } from '../utils/imports.js';
 
 
 
