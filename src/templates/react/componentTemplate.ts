@@ -30,7 +30,7 @@ export default function componentTemplate(name: string, inputs: Input[], outputs
 `${
   inline ? "" : 
 `import React${ useState ? `, { useState }` : ""} from 'react';
-${functionImport(name, '..', inlineFunc)}
+${functionImport(name, '../', inlineFunc)}
 ${useTs ? 
   `
 ${stateType("props", `${propsTypeMap}`, false).function}
