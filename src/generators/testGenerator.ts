@@ -4,7 +4,7 @@ import componentTestTemplate from '../templates/tests/componentTestTemplate.js';
 
 import fs from 'fs'
 
-export default function generateTests(functions: ABI[], projectPath: string, useTs: boolean) {
+export default function generateTests(functions: ABI[], projectPath: string, useTs: boolean, inlineFunctions: boolean, inlineComponents: boolean) {
 
   (function generate() {
 
@@ -12,7 +12,7 @@ export default function generateTests(functions: ABI[], projectPath: string, use
       if (error) throw error;
       functions.map((func) => {
         const { name, inputs, outputs, stateMutability } = func;
-        const test = functionTestTemplate(name, inputs, outputs, stateMutability, projectPath).file;
+        const test = functionTestTemplate(name, inputs, outputs, stateMutability, inlineFunctions).file;
         fs.writeFile(
           `./${projectPath}/tests/functions/${name}.test${useTs ? ".ts" : ".js"}`,
           test,
@@ -27,7 +27,7 @@ export default function generateTests(functions: ABI[], projectPath: string, use
       if (error) throw error;
       functions.map((func) => {
         const { name, inputs, outputs, stateMutability } = func;
-        const test = componentTestTemplate(name, inputs, outputs, stateMutability, projectPath).file;
+        const test = componentTestTemplate(name, inputs, outputs, stateMutability, inlineComponents).file;
         fs.writeFile(
           `./${projectPath}/tests/components/${name}.test${useTs ? ".tsx" : ".jsx"}`,
           test,
