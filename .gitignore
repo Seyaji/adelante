@@ -5,6 +5,7 @@ types
 tests/coverage
 /src/abi.json
 adelante.json
+tests/
 my-app
 abi.json
 /*.tgz
