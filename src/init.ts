@@ -74,7 +74,7 @@ export default async function initialise() {
     .prompt({
       type: "list",
       name: "tests",
-      message: "generate test files for functions and components?",
+      message: "Generate test files for functions and components?",
       choices: ["Yes", "No"],
     })
     .then((choices) => {
