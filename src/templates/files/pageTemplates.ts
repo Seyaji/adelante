@@ -59,8 +59,8 @@ import './App.css';
 import Footer from './Footer';
 import Details from './Details';
 import ${theme(useTs).name} from './${theme(useTs).name}';
-${componentImport(Nav(useTs).name, "./")}
-${functions.map(({ name }) => componentImport(name, "./components/")).join("\n")}
+${componentImport(Nav(useTs).name, "./", false)}
+${functions.map(({ name }) => componentImport(name, "./components/", false)).join("\n")}
 
 ${
   props && useTs ?
