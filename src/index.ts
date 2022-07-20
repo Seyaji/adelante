@@ -16,8 +16,8 @@ import { missingAdelante, missingAbi, unknownFailure } from "./messages.js";
   };
 
   const getContract = async (path: string) => {
-    const abi = await require(`${appRoot + path}`);
-    return abi;
+    const contract = await require(`${appRoot + path}`);
+    return contract;
   };
 
   if (args.includes("--init")) {

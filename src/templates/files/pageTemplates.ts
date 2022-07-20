@@ -1,9 +1,9 @@
-import { componentReact, componentImport } from "./imports.js";
-import { propsFilter } from "../utils.js";
-import Nav from "./nav.js";
-import { useStateObject, stateType, handleChangeArray } from "./utilSnippets.js";
-import { ABI, CompProps } from "../types";
-import theme from "./theme.js";
+import { componentReact, componentImport } from "../utils/imports.js";
+import { propsFilter } from "../../utils.js";
+import Nav from "../react/nav.js";
+import { useStateObject, stateType, handleChangeArray } from "../react/utilSnippets.js";
+import { ABI, CompProps } from "../../types";
+import theme from "../files/theme.js";
 
 export const indexHtml = (name: string) => {
   return {
@@ -59,8 +59,8 @@ import './App.css';
 import Footer from './Footer';
 import Details from './Details';
 import ${theme(useTs).name} from './${theme(useTs).name}';
-${componentImport(Nav(useTs).name, "./")}
-${functions.map(({ name }) => componentImport(name, "./components/")).join("\n")}
+${componentImport(Nav(useTs).name, "./", false)}
+${functions.map(({ name }) => componentImport(name, "./components/", false)).join("\n")}
 
 ${
   props && useTs ?
@@ -187,4 +187,24 @@ export default function Footer() {
 }
 `
   };
+}
+
+export const jestConfig = (useTs: boolean) => {
+  return {
+    name: "jest.config",
+    extension: `${ useTs ? '.ts' : '.js'}`,
+    file:
+`
+/*
+ * For a detailed explanation regarding each configuration property and type check, visit:
+ * https://jestjs.io/docs/configuration
+ */
+
+export default {
+  collectCoverage: true,
+  coverageDirectory: "coverage",
+  testEnvironment: "jsdom",
+};
+`
+  }
 }

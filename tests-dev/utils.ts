@@ -17,7 +17,7 @@ export function generateTests() {
   const { abi } = TestAbi;
   // @ts-ignore
   const functions: ABI[] = abi.filter(({ type}) => type === 'function');
-  
+
   (function generate() {
 
     fs.mkdir(`./tests/functions`, { recursive: true }, (error) => {
@@ -49,7 +49,5 @@ export function generateTests() {
         )
       })
     })
-
   })()
-
 }

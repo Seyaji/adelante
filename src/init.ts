@@ -1,7 +1,7 @@
 import appRoot from "app-root-path";
 import { writeFile } from "fs/promises";
 import inquirer from "inquirer";
-import { adelante, defaultSettings } from "./templates/adelante.js";
+import { adelante, defaultSettings } from "./templates/files/adelante.js";
 import { setupComplete, initGreeting, failedDefaultSettings } from "./messages.js";
 
 export default async function initialise() {
@@ -72,6 +72,17 @@ export default async function initialise() {
 
   await inquirer
     .prompt({
+      type: "list",
+      name: "tests",
+      message: "Generate test files for functions and components?",
+      choices: ["Yes", "No"],
+    })
+    .then((choices) => {
+      options.tests = choices["tests"] === "Yes" ? true : false;
+    });
+
+  await inquirer
+    .prompt({
       type: "input",
       name: "abiPath",
       message: "Enter path to ABI file:",
@@ -79,6 +90,7 @@ export default async function initialise() {
     .then((choices) => {
       options.abiPath = choices["abiPath"];
     });
+
   await inquirer
     .prompt({
       type: "input",
@@ -87,6 +99,16 @@ export default async function initialise() {
     })
     .then((choices) => {
       options.projectPath = choices["projectPath"];
+    });
+
+  await inquirer
+    .prompt({
+      type: "input",
+      name: "testDirectory",
+      message: "Enter output directory for tests",
+    })
+    .then((choices) => {
+      options.testDirectory = choices["testDirectory"];
     });
 
   await inquirer
@@ -108,9 +130,11 @@ export default async function initialise() {
         options.language,
         options.functions,
         options.components,
+        options.tests,
         options.abiPath,
         options.contract,
-        options.projectPath
+        options.projectPath,
+        options.testDirectory
       ),
       { signal }
     );

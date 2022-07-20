@@ -1,17 +1,17 @@
 // Templates
-import componentTemplate from "./templates/componentTemplate.js";
-import functionTemplate from "./templates/functionTemplate.js";
-import { indexFile, appFile, typeDeclaration, indexHtml, footer, details } from "./templates/pageTemplates.js";
-import { handleChangeArray } from "./templates/utilSnippets.js";
+import componentTemplate from "./templates/react/componentTemplate.js";
+import functionTemplate from "./templates/react/functionTemplate.js";
+import { indexFile, appFile, typeDeclaration, indexHtml, footer, details } from "./templates/files/pageTemplates.js";
+import { handleChangeArray } from "./templates/react/utilSnippets.js";
 
 // Components
-import nav from "./templates/nav.js";
-import theme from "./templates/theme.js";
-import css from "./templates/css.js";
-import metamask from "./templates/metamask.js";
+import nav from "./templates/react/nav.js";
+import theme from "./templates/files/theme.js";
+import css from "./templates/files/css.js";
+import metamask from "./templates/react/metamask.js";
 
 // Utils
-import { getContract } from "./templates/utilFunctions.js";
+import { getContract } from "./templates/utils/utilFunctions.js";
 import { generatorGreeting, generatorComplete, inProgress, unknownFailure } from "./messages.js";
 import { ABI } from "./types";
 
@@ -20,14 +20,22 @@ import genFunctions from "./generators/genFunctions.js";
 import genComponents from "./generators/genComponents.js";
 import genPages from "./generators/genPages.js";
 import utilGen from "./generators/utilGen.js";
+import testGenerator from "./generators/testGenerator.js";
 
-export default function generator(abi: any, contractName: string, adelante: any) {
-  const { inlineFunctions, inlineComponents, contractAddress, useTypescript, projectPath } = adelante;
+export default function generator(abi: ABI[], contractName: string, adelante: any) {
+  const { 
+    inlineFunctions,
+    inlineComponents,
+    contractAddress,
+    useTypescript,
+    projectPath,
+    generateTests,
+    testDirectory,
+  } = adelante;
   generatorGreeting();
   inProgress();
 
   const functions: ABI[] = abi
-    // @ts-ignore
     .filter(({ type }) => type === "function")
     .sort((a: ABI, b: ABI) => (a.inputs.length > b.inputs.length ? -1 : 1));
 
@@ -56,17 +64,19 @@ export default function generator(abi: any, contractName: string, adelante: any)
     ])
   );
 
-  try { 
+  try {
     genFunctions(functionMap, functions, projectPath, inlineFunctions, useTypescript);
     genComponents(componentMap, functions, projectPath, inlineFunctions, inlineComponents, useTypescript);
     genPages(pages, projectPath);
     utilGen(utils, projectPath, useTypescript);
 
+    if (generateTests) {
+      testGenerator(functions, projectPath, testDirectory, useTypescript, inlineFunctions, inlineComponents);
+    }
+
     generatorComplete();
   } catch (error) {
-
     console.log(error);
     unknownFailure();
   }
-
 }

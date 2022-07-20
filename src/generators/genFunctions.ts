@@ -1,6 +1,6 @@
 import fs from "fs";
 import { useTs } from "../utils.js";
-import { inlineFunctionImport } from "../templates/imports.js";
+import { inlineFunctionImport } from "../templates/utils/imports.js";
 
 export default function genFunctions(
   functionMap: any[],

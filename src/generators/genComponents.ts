@@ -1,6 +1,6 @@
 import fs from "fs";
 import { useTs } from "../utils.js";
-import { inlineComponentImport } from "../templates/imports.js";
+import { inlineComponentImport } from "../templates/utils/imports.js";
 
 export default function genComponents(
   componentMap: any[],

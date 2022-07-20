@@ -1,6 +1,6 @@
 //  Util Snippets
-import { capitalize } from "../utils.js";
-import { Input } from '../types'
+import { capitalize } from "../../utils.js";
+import { Input } from '../../types'
 export const useStateObject = (useTs: boolean, stateName: string, initial: any) => {
   return {
     function:
