@@ -1,12 +1,13 @@
 node_modules
 src/*
+.github
 UnitTrust
 package-lock.json
 types
 tsconfig.json
 yarn.lock
 abi.json
-tests/*
+tests-dev/*
 build.ts
 my-app
 /*.tgz
