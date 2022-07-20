@@ -9,8 +9,8 @@ export function componentImport(name: string, path: string, inline: boolean) {
   return `import ${ inline ? `"{" ${ capitalize(name) } "}"` : capitalize(name)} from '${path}${name}';`;
 }
 
-export function functionImport(name: string, depth: any, inline: boolean) {
-  return `import ${inline ? "{ " + name + " }" : name} from '${depth}functions/${inline ? "functions.js" : name}';`;
+export function functionImport(name: string, path: any, inline: boolean) {
+  return `import ${inline ? "{ " + name + " }" : name} from '${path}functions/${inline ? "functions.js" : name}';`;
 }
 
 
