@@ -72,6 +72,17 @@ export default async function initialise() {
 
   await inquirer
     .prompt({
+      type: "list",
+      name: "tests",
+      message: "generate test files for functions and components?",
+      choices: ["Yes", "No"],
+    })
+    .then((choices) => {
+      options.components = choices["tests"] === "Yes" ? true : false;
+    });
+
+  await inquirer
+    .prompt({
       type: "input",
       name: "abiPath",
       message: "Enter path to ABI file:",
@@ -108,6 +119,7 @@ export default async function initialise() {
         options.language,
         options.functions,
         options.components,
+        options.tests,
         options.abiPath,
         options.contract,
         options.projectPath
