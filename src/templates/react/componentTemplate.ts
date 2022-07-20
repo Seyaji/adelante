@@ -1,7 +1,7 @@
 import { handleChangeObjectState, useStateObject, handleClickEvent, stateType } from "./utilSnippets.js";
-import { functionImport } from "./imports.js";
-import { capitalize, propsFilter, funcFormat, dataTypes } from "../utils.js";
-import { Input, CompProps } from '../types'
+import { functionImport } from "../utils/imports.js";
+import { capitalize, propsFilter, funcFormat, dataTypes } from "../../utils.js";
+import { Input, CompProps } from '../../types'
 
 const inputGenerator = (inputs: Input[], state: string) => {
   if (inputs.length == 0) return "";

@@ -1,5 +1,5 @@
-import { ABI } from "../types";
-import { capitalize } from "../utils.js";
+import { ABI } from "../../types";
+import { capitalize } from "../../utils.js";
 
 export function componentReact(name: string, props: any[]) {
   return `      <${capitalize(name)} ${ props.length > 0 ? props.map((prop) => `${prop.name}={${prop.name}}`).join(" ") : ""} />`;

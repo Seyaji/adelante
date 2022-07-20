@@ -1,5 +1,5 @@
-import { dataTypes } from "../utils.js";
-import { Input } from "../types";
+import { dataTypes } from "../../utils.js";
+import { Input } from "../../types";
 
 // ${dataTypes[type]}
 
