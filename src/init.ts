@@ -90,6 +90,7 @@ export default async function initialise() {
     .then((choices) => {
       options.abiPath = choices["abiPath"];
     });
+
   await inquirer
     .prompt({
       type: "input",
@@ -98,6 +99,16 @@ export default async function initialise() {
     })
     .then((choices) => {
       options.projectPath = choices["projectPath"];
+    });
+
+  await inquirer
+    .prompt({
+      type: "input",
+      name: "testDirectory",
+      message: "Enter output directory for tests",
+    })
+    .then((choices) => {
+      options.testDirectory = choices["testDirectory"];
     });
 
   await inquirer
@@ -122,7 +133,8 @@ export default async function initialise() {
         options.tests,
         options.abiPath,
         options.contract,
-        options.projectPath
+        options.projectPath,
+        options.testDirectory
       ),
       { signal }
     );
