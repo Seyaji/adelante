@@ -1,7 +1,7 @@
 import appRoot from "app-root-path";
 import { writeFile } from "fs/promises";
 import inquirer from "inquirer";
-import { adelante, defaultSettings } from "./templates/adelante.js";
+import { adelante, defaultSettings } from "./templates/files/adelante.js";
 import { setupComplete, initGreeting, failedDefaultSettings } from "./messages.js";
 
 export default async function initialise() {
