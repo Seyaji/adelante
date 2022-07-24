@@ -132,9 +132,11 @@ npx adelante
   "useTypescript": true,
   "inlineFunctions": false,
   "inlineComponents": false,
-  "contractPath": "/abi.json", // Path to the compiled contract (found in your artifacts folder if using hardhat, it must be in your project directory)
+  "contractPath": "/Contract.json", // Path to the compiled contract (found in your artifacts folder if using hardhat, it must be in your project directory)
+  "generateTests": true,
   "contractAddress": "ENTER_CONTRACT_ADDRESS_HERE",
-  "projectPath": "/my-app/src" // Path to app directory, if you want to use create-react-app the path should be to the src file 
+  "projectPath": "/my-app/src", // Path to app directory, if you want to use create-react-app the path should be to the src file
+  "testDirectory": "./my-app/src" // Path to where you want the test file to be generated 
 }
 
 ```
@@ -297,3 +299,98 @@ export default function App() {
 
 ```
 
+<br />
+
+# Generating tests for the React Components
+
+<br />
+
+## Tests for components
+You have the option to generate tests for the react components created by adelante.
+If you choose this option adelante will read the ABI to determine some basic tests to be created.
+
+An example of the generated test is below:
+```js
+import '@testing-library/jest-dom'
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import React from 'react';
+
+import ReturnSum from "../../test-app/components/ReturnSum";
+
+type Props = {
+  handleMasterLogsChange: (data: any) => void;
+};
+
+const setup = (propOverrides?: Partial<Props>) => {
+  const props: Props = {
+    handleMasterLogsChange: jest.fn(),
+    ...propOverrides,
+  }
+  return render(<ReturnSum { ...props} />);
+}
+
+describe('Test for returnSum component', () => {
+  it('should render without exploding, () => {}', () => {
+    expect(() => setup()).not.toThrow();
+  })
+  it('should render ReturnSum inputs', () => {
+    setup();
+    expect(screen.getAllByRole("spinbutton").length).toBe(2);
+    expect(screen.getByRole("spinbutton", {name: "_a"})).toBeInTheDocument()
+    expect(screen.getByRole("spinbutton", {name: "_b"})).toBeInTheDocument()
+  })
+
+
+  it('should render the button to call the contract function', () => {
+    setup();
+    expect(screen.getByRole("button", { name: "returnSum" })).toBeInTheDocument()
+  })
+
+  it('should render the component heading correctly', () => {
+    setup();
+    expect(screen.getByRole("heading", { name: "Return Sum" })).toBeInTheDocument()
+  })
+
+  it('should call handleMasterLogsChange on button click', async () => {
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation()
+    const handleMock = jest.fn();
+    setup({ handleMasterLogsChange: handleMock });
+
+    const button = screen.getByRole("button", { name: "returnSum" });
+    await userEvent.click(button);
+
+    expect(handleMock).toHaveBeenCalled();
+    expect(consoleSpy.mock.calls.length).toBe(1);
+  })
+
+  it('should handle input change correctly', async () => {
+    setup();
+    
+    const _a = screen.getByRole("spinbutton", {name: "_a"})
+    const _b = screen.getByRole("spinbutton", {name: "_b"})
+    await userEvent.type(_a, "150") 
+    await userEvent.type(_b, "150") 
+    expect(screen.getByRole("spinbutton", {name: "_a"})).toHaveValue(150)
+    expect(screen.getByRole("spinbutton", {name: "_b"})).toHaveValue(150)
+  })
+  
+})
+
+```
+
+## Tests for Functions
+Adelante will generate tests for the functions, they are very basic, more improvements coming soon.
+
+```js
+import getBalance from "../../test-app/functions/getBalance"
+
+describe('Test for getBalance function', () => {
+  it('should call the function', () => {
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation()
+    getBalance()
+    expect(consoleSpy.mock.calls.length).toBe(1);
+  })
+
+})
+```
