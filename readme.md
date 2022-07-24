@@ -132,9 +132,11 @@ npx adelante
   "useTypescript": true,
   "inlineFunctions": false,
   "inlineComponents": false,
-  "contractPath": "/abi.json", // Path to the compiled contract (found in your artifacts folder if using hardhat, it must be in your project directory)
+  "contractPath": "/Contract.json", // Path to the compiled contract (found in your artifacts folder if using hardhat, it must be in your project directory)
+  "generateTests": true,
   "contractAddress": "ENTER_CONTRACT_ADDRESS_HERE",
-  "projectPath": "/my-app/src" // Path to app directory, if you want to use create-react-app the path should be to the src file 
+  "projectPath": "/my-app/src", // Path to app directory, if you want to use create-react-app the path should be to the src file
+  "testDirectory": "./my-app/src" // Path to where you want the test file to be generated 
 }
 
 ```
